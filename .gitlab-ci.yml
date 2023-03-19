@@ -1,0 +1,163 @@
+stages:
+- STAGING
+- LIVE
+
+DEMO FRONTEND_STAGING:
+  stage: STAGING
+  script:
+    - apt-get update -qq
+    - apt-get install -qq git
+  # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh $SSH_ADDRESS "cd $FRONTEND_DEMO_JP_PATH && $FRONTEND_JP_COMMAND"
+
+  when: manual
+  allow_failure: false
+  only:
+    - jp
+
+DEMO NKTI FRONTEND_STAGING:
+  stage: STAGING
+  script:
+    - apt-get update -qq
+    - apt-get install -qq git
+  # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh $SSH_ADDRESS "cd $F_DEMO_JP_NKTI_PATH && $FRONTEND_JP_COMMAND"
+
+  when: manual
+  allow_failure: false
+  only:
+    - jp
+
+DEMO DNPH FRONTEND_STAGING:
+  stage: STAGING
+  script:
+    - apt-get update -qq
+    - apt-get install -qq git
+  # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh $SSH_ADDRESS "cd $F_DEMO_JP_DNPH_PATH && $FRONTEND_JP_COMMAND"
+
+  when: manual
+  allow_failure: false
+  only:
+    - jp
+
+DEMO MITSI FRONTEND_STAGING:
+  stage: STAGING
+  script:
+    - apt-get update -qq
+    - apt-get install -qq git
+  # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh $SSH_ADDRESS "cd $F_DEMO_JP_MITSI_PATH && $FRONTEND_JP_COMMAND"
+
+  when: manual
+  allow_failure: false
+  only:
+    - jp
+
+DEMO STI FRONTEND_STAGING:
+  stage: STAGING
+  script:
+    - apt-get update -qq
+    - apt-get install -qq git
+  # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh $SSH_ADDRESS "cd $F_DEMO_JP_STI_PATH && $FRONTEND_JP_COMMAND"
+
+  when: manual
+  allow_failure: false
+  only:
+    - jp
+
+DEMO HANN FRONTEND_STAGING:
+  stage: STAGING
+  script:
+    - apt-get update -qq
+    - apt-get install -qq git
+  # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh $SSH_ADDRESS "cd $F_DEMO_JP_HANN_PATH && $FRONTEND_JP_COMMAND"
+
+  when: manual
+  allow_failure: false
+  only:
+    - jp
+
+
+DEMO MIRIAM FRONTEND_STAGING:
+  stage: STAGING
+  script:
+    - apt-get update -qq
+    - apt-get install -qq git
+  # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh $SSH_ADDRESS "cd $F_DEMO_JP_MIRIAM_PATH && $FRONTEND_JP_COMMAND"
+  when: manual
+  allow_failure: false
+  only:
+    - jp
+
+DEMO CFS FRONTEND_STAGING:
+  stage: STAGING
+  script:
+    - apt-get update -qq
+    - apt-get install -qq git
+  # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh $SSH_ADDRESS "cd $F_DEMO_JP_CFS_PATH && $FRONTEND_JP_COMMAND"
+  when: manual
+  allow_failure: false
+  only:
+    - jp
+
+DEMO PAGASA FRONTEND_STAGING:
+  stage: STAGING
+  script:
+    - apt-get update -qq
+    - apt-get install -qq git
+  # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh $SSH_ADDRESS "cd $F_DEMO_JP_PAGASA_PATH && $FRONTEND_JP_COMMAND"
+  when: manual
+  allow_failure: false
+  only:
+    - jp

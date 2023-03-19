@@ -1,0 +1,42 @@
+{
+    "name": "nuxt-starter-pack",
+    "scripts": {
+        "dev": "nuxt -c nuxt.config.js",
+        "build": "nuxt build -c nuxt.config.js",
+        "build-prod": "nuxt build -c prod.config.js",
+        "start": "nuxt start -c nuxt.config.js",
+        "lint": "eslint --fix --ext .js,.vue /"
+    },
+    "version": "1.0.0",
+    "author": "Suiterus Developers",
+    "description": "",
+    "dependencies": {
+        "@nuxtjs/axios": "^5.13.6",
+        "@nuxtjs/router": "^1.5.0",
+        "axios": "^0.21.0",
+        "dom-to-image-more": "^2.9.5",
+        "dotenv": "^8.2.0",
+        "jquery": "^3.5.1",
+        "js-cookie": "^2.2.1",
+        "jspdf": "^2.5.1",
+        "jspdf-autotable": "^3.5.28",
+        "laravel-echo": "^1.11.3",
+        "nuxt": "^2.14.7",
+        "socket.io-client": "^2.3.0",
+        "sweetalert2": "^10.10.4",
+        "vform": "^1.0.1",
+        "vue-i18n": "^8.22.2",
+        "vue-luxon": "^0.10.0",
+        "vue-toast-notification": "^0.6.2",
+        "webpack": "^4.46.0"
+    },
+    "devDependencies": {
+        "@babel/eslint-parser": "^7.12.1",
+        "@nuxtjs/eslint-config": "^5.0.0",
+        "@nuxtjs/vuetify": "^1.12.1",
+        "eslint": "^7.14.0",
+        "fs-extra": "^9.0.1",
+        "node-sass": "^6.0.0",
+        "sass-loader": "^10.1.0"
+    }
+}
