@@ -31,9 +31,17 @@
                             </div>
                         </v-card-subtitle>
                         <v-card-text class="text-center"> Available Slots: {{ selected.slots }} </v-card-text>
-                        <v-card-text v-if="selected.show_salary==1" class="text-center text--primary" > 
-                            {{ selected.salary.value==undefined ? 'N/A' :  "PHP " + selected.salary.value}} 
+                        <v-card-text v-if="sector.name == 'public'" class="text-center text--primary" > 
+                            <div v-if="selected.show_salary==1">
+                                {{ selected.salary.value==undefined ? 'N/A' :  "PHP " + selected.salary.value}} 
+                            </div>
                         </v-card-text>
+                        <v-card-text v-if="sector.name == 'private'" class="text-center text--primary" > 
+                            <div v-if="selected.show_salary==1">
+                                {{ selected.salary==undefined ? 'N/A' :  "PHP " + selected.salary}} 
+                            </div>
+                        </v-card-text>
+                        
                         <v-card-actions class="pa-4 d-flex justify-center">  
                             <v-btn color="primary darken-5" @click="openForm(selected)" class="mx-2"> Apply </v-btn>
                         </v-card-actions>
@@ -58,9 +66,14 @@
                                             {{ job.description ? job.description : "N/A" }} 
                                         </div>
                                     </v-card-subtitle>
-                                    <v-card-text class="text--primary" > 
+                                    <v-card-text class="text--primary" v-if="sector.name == 'public'" > 
                                         <div v-if="job.show_salary==1">
                                             {{ job.salary.value==undefined ? 'N/A' :  "PHP " + job.salary.value}} 
+                                        </div>  
+                                    </v-card-text>
+                                    <v-card-text class="text--primary" v-if="sector.name == 'private'" > 
+                                        <div v-if="job.show_salary==1">
+                                            {{ job.salary==undefined ? 'N/A' :  "PHP " + job.salary}} 
                                         </div>  
                                     </v-card-text>
                                     <v-card-actions class="pa-4 d-flex flex-row-reverse justify-self-end"> 
@@ -98,12 +111,19 @@ export default {
         ApplyForm: Form
     },
 
-    mounted() {
+   async mounted() {
         this.initJobs();
+
+        await this.$axios.get('/applicant/sector/fetch_sector_type')
+            .then((res) => {                
+                this.sector = res.data
+            });
+
     },
 
     data() {
         return {
+            sector: null,
             jobChosen: null,
             page: 1,
             loading: false,
@@ -115,30 +135,11 @@ export default {
                     disabled: true,
                 }
             ],
-            jobs: [
-                // {
-                //     title: "Graphic Designer",
-                //     description: "Designs the overall UI and UX for the systems",
-                // },
-                // {
-                //     title: "Software Engineer",
-                //     description: "The primary role will be programming new functions for the system.",
-                // },
-                // {
-                //     title: "Project Manager",
-                //     description: "Manages the projects' requirements",
-                // },
-                // {
-                //     title: "Quality Tester",
-                //     description: "Testing system functions if it meets the requirements",
-                // },
-                // {
-                //     title: "Junior Software Engineer (Intern)",
-                //     description: "",
-                // },
-            ]
+            jobs: []
         }
     },
+    
+
 
     methods: {
 
@@ -166,6 +167,7 @@ export default {
             }
             this.selected = job;
             this.breadcrumbs.push(newJob);
+            console.log("selected",this.selected)
         },
 
         resetCrumbs() {

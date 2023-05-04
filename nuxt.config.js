@@ -51,6 +51,7 @@ export default {
     { src: '~assets/toast/theme-sugar.css', lang: 'css' }
   ],
   router: {
+    mode: 'hash',
     middleware: ['locale', 'check-auth'],
     extendRoutes (routes, resolve) {
       routes.push({
