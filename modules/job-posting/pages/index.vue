@@ -145,7 +145,7 @@ export default {
 
         async initJobs() {
             this.loading = true;
-            await this.$axios.post(`/applicant/positions/jobs/?page=${this.page}`)
+            await this.$axios.post(`/applicant/positions/jobs?page=${this.page}`)
                 .then(res => {
                     this.jobs = res.data.data.data;
                 })
