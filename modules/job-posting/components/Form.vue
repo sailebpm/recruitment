@@ -153,7 +153,7 @@
             async initJobs() {
                 this.loading = true;
                 await this.$axios
-                    .post(`/applicant/positions/jobs/?page=${this.page}`)
+                    .post(`/applicant/positions/jobs?page=${this.page}`)
                     .then((res) => {
                         this.options = res.data.data.data;
                         var positonId = [];
