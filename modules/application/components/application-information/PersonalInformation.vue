@@ -154,7 +154,7 @@ export default {
             {
               entityName: "email",
               label: "Email Address",
-              value: "",
+              value: this.employeeEmail ? this.employeeEmail : "",
               cols: 6,
               skip: false,
               rules: [(v) => !!v || "Email is a required field"],
