@@ -675,12 +675,10 @@ export default {
         var value = res.data.data;
         this.contact_information = value[0].pre_employment_column;
         this.personal_information = value[1].pre_employment_column;
-        this.personalInformation.personalInformationForm.info[3].value =
-          this.contact_information[4].field_value;
-        this.personalInformation.otherInformation.info[1].value =
-          this.contact_information[2].field_value;
-        this.personalInformation.otherInformation.info[3].value =
-          this.contact_information[1].field_value;
+
+		  //Personal information
+		this.personalInformation.personalInformationForm.info[1].value =
+			this.contact_information[4].field_value;// email
         this.personalInformation.personalInformationForm.info[2].value =
           this.personal_information[0].field_value; // surname
         this.personalInformation.personalInformationForm.info[4].value =
@@ -691,12 +689,15 @@ export default {
           this.personal_information[6].field_value; // birth date
         this.personalInformation.personalInformationForm.info[12].value =
           this.personal_information[7].field_value; // "place_of_birth"
-        console.log(this.personalInformation.radioChoices.info[0].choices);
-        console.log(this.personal_information[10].field_value);
         this.personalInformation.radioChoices.info[0].choices.value =
           this.personal_information[10].field_value;
-        // this.personalInformation.radioChoices.info[0].choices = this.personal_information[10].field_value;
 
+
+		  //otherInformation
+		this.personalInformation.otherInformation.info[1].value =
+          this.contact_information[2].field_value;
+        this.personalInformation.otherInformation.info[3].value =
+          this.contact_information[1].field_value;
         this.personalInformation.otherInformation.info[0].value =
           this.personal_information[11].field_value; // height
         this.personalInformation.otherInformation.info[2].value =
