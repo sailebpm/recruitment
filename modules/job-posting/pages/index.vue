@@ -19,30 +19,27 @@
             <v-fade-transition leave-absolute hide-on-leave>
                 <v-sheet class="d-flex justify-center mt-5" v-if="selected">
                     <v-card elevation="1" min-width="320px" max-width="700px;" class="px-4 pb-2">
-                        <v-card-title class="d-flex justify-center mb-4" style="font-size: 30px;"> 
-                            {{ selected.position.title }} 
+                        <v-card-title class="d-flex justify-center mb-4" style="font-size: 30px;">
+                            {{ selected.position_title }}
                         </v-card-title>
                         <v-card-subtitle class="text-center">
                             <div>
-                                {{ selected.item_code}} 
-                            </div> 
-                            <div>
-                                {{ selected.description ? selected.description : "N/A" }} 
+                                {{ selected.description ? selected.description : "N/A" }}
                             </div>
                         </v-card-subtitle>
                         <v-card-text class="text-center"> Available Slots: {{ selected.slots }} </v-card-text>
-                        <v-card-text v-if="sector.name == 'public'" class="text-center text--primary" > 
+                        <v-card-text v-if="sector.name == 'public'" class="text-center text--primary" >
                             <div v-if="selected.show_salary==1">
-                                {{ selected.salary.value==undefined ? 'N/A' :  "PHP " + selected.salary.value}} 
+                                {{ selected.salary.value==undefined ? 'N/A' :  "PHP " + selected.salary.value}}
                             </div>
                         </v-card-text>
-                        <v-card-text v-if="sector.name == 'private'" class="text-center text--primary" > 
+                        <v-card-text v-if="sector.name == 'private'" class="text-center text--primary" >
                             <div v-if="selected.show_salary==1">
-                                {{ selected.salary==undefined ? 'N/A' :  "PHP " + selected.salary}} 
+                                {{ selected.salary==undefined ? 'N/A' :  "PHP " + selected.salary}}
                             </div>
                         </v-card-text>
-                        
-                        <v-card-actions class="pa-4 d-flex justify-center">  
+
+                        <v-card-actions class="pa-4 d-flex justify-center">
                             <v-btn color="primary darken-5" @click="openForm(selected)" class="mx-2"> Apply </v-btn>
                         </v-card-actions>
                     </v-card>
@@ -57,28 +54,29 @@
                                 class="d-flex flex-column"
                                 >
                                 <v-card elevation="1" class="flex-grow-1 d-flex flex-column justify-space-between">
-                                    <v-card-title> {{ job.position.title }} </v-card-title>
-                                    <v-card-subtitle> 
+                                    <v-card-title> {{ job.position_title }} </v-card-title>
+                                    <v-card-subtitle>
                                         <div>
-                                            {{ job.item_code }}
-                                        </div>
-                                        <div>
-                                            {{ job.description ? job.description : "N/A" }} 
+                                            {{ job.description ? job.description : "N/A" }}
                                         </div>
                                     </v-card-subtitle>
-                                    <v-card-text class="text--primary" v-if="sector.name == 'public'" > 
-                                        <div v-if="job.show_salary==1">
-                                            {{ job.salary.value==undefined ? 'N/A' :  "PHP " + job.salary.value}} 
-                                        </div>  
+                                    <v-card-text class="text--primary" v-if="sector.name == 'public'" >
+                                        <div v-for="(job, index) in job.item_codes" :key="index">
+                                            <div  v-if="job.show_salary === 1">
+                                                {{ job.salary == undefined ? 'N/A' : "PHP " + job.salary.value }}
+                                            </div>
+                                        </div>
                                     </v-card-text>
-                                    <v-card-text class="text--primary" v-if="sector.name == 'private'" > 
-                                        <div v-if="job.show_salary==1">
-                                            {{ job.salary==undefined ? 'N/A' :  "PHP " + job.salary}} 
-                                        </div>  
+                                    <v-card-text class="text--primary" v-if="sector.name == 'private'" >
+                                        <div v-for="(job, index) in job.item_codes" :key="index" >
+                                            <div v-if="job.show_salary === 1">
+                                                {{ job.salary == undefined ? 'N/A' :  "PHP " + job.salary.value}}
+                                            </div>
+                                        </div>
                                     </v-card-text>
-                                    <v-card-actions class="pa-4 d-flex flex-row-reverse justify-self-end"> 
+                                    <v-card-actions class="pa-4 d-flex flex-row-reverse justify-self-end">
                                         <v-btn color="primary" @click="openJob(job)">
-                                            Apply 
+                                            Apply
                                         </v-btn>
                                     </v-card-actions>
                                 </v-card>
@@ -115,7 +113,7 @@ export default {
         this.initJobs();
 
         await this.$axios.get('/applicant/sector/fetch_sector_type')
-            .then((res) => {                
+            .then((res) => {
                 this.sector = res.data
             });
 
@@ -138,14 +136,14 @@ export default {
             jobs: []
         }
     },
-    
+
 
 
     methods: {
 
         async initJobs() {
             this.loading = true;
-            await this.$axios.post(`/applicant/positions/jobs?page=${this.page}`)
+            await this.$axios.post(`/applicant/positions/fetch-all-jobs?page=${this.page}`)
                 .then(res => {
                     this.jobs = res.data.data.data;
                 })
@@ -155,7 +153,7 @@ export default {
                 .finally(() => {
                     this.loading = false;
                 });
-        },  
+        },
 
         openJob(job) {
             this.breadcrumbs.forEach(crumb => {
