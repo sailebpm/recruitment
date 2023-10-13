@@ -61,17 +61,13 @@
                                         </div>
                                     </v-card-subtitle>
                                     <v-card-text class="text--primary" v-if="sector.name == 'public'" >
-                                        <div v-for="(job, index) in job.item_codes" :key="index">
-                                            <div  v-if="job.show_salary === 1">
-                                                {{ job.salary == undefined ? 'N/A' : "PHP " + job.salary.value }}
-                                            </div>
+                                        <div v-if="job.show_salary === 1">
+                                            {{ job.salary == undefined ? 'N/A' : "PHP " + job.salary.value }}
                                         </div>
                                     </v-card-text>
                                     <v-card-text class="text--primary" v-if="sector.name == 'private'" >
-                                        <div v-for="(job, index) in job.item_codes" :key="index" >
-                                            <div v-if="job.show_salary === 1">
-                                                {{ job.salary == undefined ? 'N/A' :  "PHP " + job.salary.value}}
-                                            </div>
+                                        <div v-if="job.show_salary === 1">
+                                            {{ job.salary == undefined ? 'N/A' :  "PHP " + job.salary.value}}
                                         </div>
                                     </v-card-text>
                                     <v-card-actions class="pa-4 d-flex flex-row-reverse justify-self-end">
@@ -94,6 +90,10 @@
                             </v-skeleton-loader>
                         </v-col>
                     </template>
+
+                    <v-col cols="12">
+                        <v-pagination class="pagination text-center" v-model="page" :length="pageCount" :total-visible="itemsPerPage > 2 ? itemsPerPage : 5" @input="onPageChange" color="#2d3270"></v-pagination>
+                    </v-col>
                 </v-row>
             </v-fade-transition>
         </v-container>
@@ -133,7 +133,10 @@ export default {
                     disabled: true,
                 }
             ],
-            jobs: []
+            jobs: [],
+            itemsPerPage: 5,
+            page: 1,
+            pageCount: 1,
         }
     },
 
@@ -141,11 +144,18 @@ export default {
 
     methods: {
 
+        onPageChange() {
+            this.initJobs();
+        },
+
         async initJobs() {
             this.loading = true;
             await this.$axios.post(`/applicant/positions/fetch-all-jobs?page=${this.page}`)
                 .then(res => {
                     this.jobs = res.data.data.data;
+                    this.itemsPerPage = res.data.data.per_page;
+                    this.page = res.data.data.current_page;
+                    this.pageCount = res.data.data.last_page;
                 })
                 .catch(() => {
 
@@ -193,5 +203,11 @@ export default {
     }
     .crumb:disabled {
         cursor: default !important;
+    }
+    .pagination {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
 </style>
