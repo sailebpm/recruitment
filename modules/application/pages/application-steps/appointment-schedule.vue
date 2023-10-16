@@ -77,7 +77,7 @@
                 },
             };
         },
-        async created() {
+        created() {
             this.getRequirements();
             this.getAppointment();
             this.getPosition()
