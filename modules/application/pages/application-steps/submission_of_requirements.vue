@@ -30,7 +30,7 @@
                 </v-col>
             </v-card-text>
 
-            
+
             <v-card-text class="pa-5" v-if="appointmentRequirements != null && appointmentRequirements.status == 3">
                 <v-col cols="6">
                     <div>
@@ -41,7 +41,7 @@
                 </v-col>
             </v-card-text>
 
-        
+
 
             <v-card-actions class="d-flex flex-row-reverse">
                 <v-btn  v-if="appointmentRequirements != null && appointmentRequirements.status == 1" color="primary darken-3" class="ml-2 text-capitalize" @click="acknowledgeRequirement"> Acknowledge </v-btn>
@@ -77,7 +77,7 @@
             };
         },
         async created() {
-            this.getRequirments();
+            this.getRequirements();
             this.getAppointment();
             this.getInfo();
         },
@@ -120,7 +120,7 @@
                 });
             },
 
-            async getRequirments() {
+            async getRequirements() {
                 await this.$axios.post("/applicant/fetch_requirement_status").then((res) => {
                     this.appointmentRequirements = res.data.data;
                     if(this.appointmentRequirements != null){
