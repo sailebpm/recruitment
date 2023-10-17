@@ -39,7 +39,7 @@
                                 small-chips
                                 deletable-chips
                                 v-on:input="limiter1"
-                                item-text="position.title"
+                                item-text="position_title"
                                 item-value="position_id"
                             >
                             </v-autocomplete>
@@ -105,7 +105,7 @@
                     },
                 },
                 payload: {
-                    position_id: this.job.position.id,
+                    position_id: this.job.position_id,
                     phs_id: this.job.id,
                     applicant_id: null,
                     position_option: this.positionOption,
@@ -113,7 +113,8 @@
                 position_title: [],
                 secondChoice: null,
                 thridChoice: null,
-                successMessage: false
+                successMessage: false,
+                page: 1,
             };
         },
         watch: {
@@ -122,7 +123,7 @@
                 this.secondChoice = value[0];
                 this.thridChoice = value[1];
                 value.forEach((element) => {
-                    element.position.title;
+                    element.position_title;
                     var positionID = element.position_id;
                     rows.push(positionID);
                 });
@@ -136,7 +137,7 @@
         async created() {
             this.initJobs();
             this.firstChoice = {
-                firstChoice: this.job.position.title,
+                firstChoice: this.job.position_title,
             };
         },
         methods: {
@@ -153,12 +154,12 @@
             async initJobs() {
                 this.loading = true;
                 await this.$axios
-                    .post(`/applicant/positions/jobs?page=${this.page}`)
+                    .post(`/applicant/positions/fetch-all-jobs?page=${this.page}`)
                     .then((res) => {
                         this.options = res.data.data.data;
                         var positonId = [];
                         Object.keys(this.options).forEach((element) => {
-                            if (this.options[element].position_id != this.job.position.id) {
+                            if (this.options[element].position_id != this.job.position_id) {
                                 this.position = this.options[element];
                                 positonId.push(this.position);
                                 this.position_title = positonId;
@@ -176,22 +177,23 @@
                     e.pop();
                 }
             },
-            
-
             async registerFunction(payload1) {
                 if (this.$refs.register.validate()) {
                     this.loading = true;
                     const payload = {
-                        position_id: this.job.position.id,
-                        phs_id: this.job.id,
+                        position_id: this.job.position_id,
+                        phs_id: this.job.item_codes[0].phs_id,
                         applicant_id: null,
                         position_option: this.positionChoice_id,
+                        item_codes: this.job.item_codes[0].item_code,
+                        description: this.job.description,
+                        salary: this.job.salary.value
                     };
                     await this.$swal
                         .fire({
                             icon: "warning",
                             title: "Are you sure?",
-                            text: "You will be applying for " + this.job.position.title,
+                            text: "You will be applying for " + this.job.position_title,
                             showCancelButton: true,
                             confirmButtonText: "Continue",
                         })
@@ -212,7 +214,7 @@
                                                 });
                                                 this.$axios.post('/applicant/pre-employment/create_pre_employment',  {applicant_information: payload1, applicant: res.data}).then((res) => {
                                                     window.location.href = this.$config.adg + "applicant";
-                                                 })        
+                                                 })
                                             })
                                             .catch((err) => {
                                                 this.$toast.open({
@@ -243,13 +245,13 @@
                             }
                         })
                         .finally(() => {
-                        
+
                             this.loading = false;
 
                         });
                 }
             },
-            
+
 
             close() {
                 this.open = false;
