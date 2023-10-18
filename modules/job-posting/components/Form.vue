@@ -117,6 +117,7 @@
                 page: 1,
             };
         },
+
         watch: {
             positionOption(value) {
                 let rows = [];
@@ -134,12 +135,14 @@
                 };
             },
         },
-        async created() {
+
+        created() {
             this.initJobs();
             this.firstChoice = {
                 firstChoice: this.job.position_title,
             };
         },
+
         methods: {
             viewPreEmploy() {
                 if (this.$refs.register.validate()) {
@@ -166,7 +169,22 @@
                             }
                         });
                     })
-                    .catch(() => {})
+                    .catch((err) => {
+                        if (err.response.status == "403" || err.response.status == "422" || err.response.status == "400") {
+                            var x = "";
+                            this.$jquery.each(err.response.data.errors, (i, v) => {
+                                x += v + "<br>";
+                            });
+                            this.$toast.open({
+                                message: x,
+                                type: "error",
+                                duration: 3000,
+                                pauseOnHover: true,
+                            });
+                        } else {
+                            throw err.response.data;
+                        }
+                    })
                     .finally(() => {
                         this.loading = false;
                     });
@@ -177,6 +195,7 @@
                     e.pop();
                 }
             },
+
             async registerFunction(payload1) {
                 if (this.$refs.register.validate()) {
                     this.loading = true;
@@ -245,9 +264,7 @@
                             }
                         })
                         .finally(() => {
-
                             this.loading = false;
-
                         });
                 }
             },

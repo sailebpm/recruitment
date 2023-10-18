@@ -140,10 +140,7 @@ export default {
         }
     },
 
-
-
     methods: {
-
         onPageChange() {
             this.initJobs();
         },
@@ -157,8 +154,21 @@ export default {
                     this.page = res.data.data.current_page;
                     this.pageCount = res.data.data.last_page;
                 })
-                .catch(() => {
-
+                .catch((err) => {
+                    if (err.response.status == "403" || err.response.status == "422" || err.response.status == "400") {
+                            var x = "";
+                            this.$jquery.each(err.response.data.errors, (i, v) => {
+                                x += v + "<br>";
+                            });
+                            this.$toast.open({
+                                message: x,
+                                type: "error",
+                                duration: 3000,
+                                pauseOnHover: true,
+                            });
+                        } else {
+                            throw err.response.data;
+                    }
                 })
                 .finally(() => {
                     this.loading = false;
