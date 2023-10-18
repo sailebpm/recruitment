@@ -182,10 +182,10 @@
                     this.loading = true;
                     const payload = {
                         position_id: this.job.position_id,
-                        phs_id: this.job.item_codes[0].phs_id,
+                        phs_id: (this.job.item_codes.length >= 1 ? this.job.item_codes[0].phs_id : null),
                         applicant_id: null,
                         position_option: this.positionChoice_id,
-                        item_codes: this.job.item_codes[0].item_code,
+                        item_codes: (this.job.item_codes.length >= 1 ? this.job.item_codes[0].item_code : null),
                         description: this.job.description,
                         salary: this.job.salary.value
                     };

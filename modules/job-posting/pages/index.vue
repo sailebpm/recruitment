@@ -175,7 +175,6 @@ export default {
             }
             this.selected = job;
             this.breadcrumbs.push(newJob);
-            console.log("selected",this.selected)
         },
 
         resetCrumbs() {
