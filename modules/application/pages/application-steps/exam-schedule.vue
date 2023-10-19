@@ -38,17 +38,45 @@
             </v-card-text>
             <v-card-actions class="d-flex flex-row-reverse">
                 <div> <v-btn v-if="schedule !=null && schedule.status ==1" :disabled="btnDisable" color="primary darken-3" class="ml-2 text-capitalize" @click="acknowledge"> Acknowledge </v-btn></div>
-                <div><v-btn v-if="schedule != null && schedule.status == 1 && countReSchedule != 2" color="primary darken-3" class="mx-2 text-capitalize" @click="reschedule"> Request for Reschedule </v-btn></div>
+                <div>
+                    <RequestModal v-if="schedule != null && schedule.status == 1 && countReSchedule != 2">
+                        <template v-slot:dialog_content>
+                            <v-card-text class="pt-4 pb-5 black--text">
+                                <v-list>
+                                    <v-list-item>
+                                        <v-textarea
+                                            v-model="reasonForResched"
+                                            outlined
+                                            name="input-7-4"
+                                            label="State your reason and preferred date of exam"
+                                            hide-details
+                                        ></v-textarea>
+                                    </v-list-item>
+                                </v-list>
+                            </v-card-text>
+                        </template>
+                        <template v-slot:dialog_actions>
+                            <div class="mb-3 mt-3">
+                                <v-btn class="white--text mr-3 text-capitalize elevation-0" width="140" @click="reschedule" type="submit" color="primary darken-3">Submit</v-btn>
+                            </div>
+                        </template>
+                    </RequestModal>
+                </div>
             </v-card-actions>
         </v-card>
         <v-skeleton-loader v-else type="card-avatar, article, actions"></v-skeleton-loader>
+        
     </div>
 </template>
 
 <script>
 import store from '../../store/application';
+import RequestModal from './request-for-reschedule.vue';
 
 export default {
+    components:{
+        RequestModal,
+    },
     data() {
         return {
             declineDisable: true,
@@ -67,6 +95,8 @@ export default {
                 schedule: null,
                 reschedule: "We are currently revisiting your request for rescheduling. Thank you for patiently waiting.",
             },
+            requestModal: false,
+            reasonForResched:"",
         }
     },
     created(){
@@ -94,13 +124,17 @@ export default {
             })
         },
         async reschedule() {
-            this.btnDisable = true
+            //this.btnDisable = true
             this.loading = true
-            const payload = { schedule_id: this.schedule.id }
+            const payload = { 
+                schedule_id: this.schedule.id,
+                reason: this.reasonForResched,
+            }
             await this.$axios.post('/applicant/update/status', payload)
             .then(async (res) => {
                 await this.$axios.post('/applicant/reschedule', payload)
                 .then((res) => {
+                    console.log("payload",payload)
                     this.$toast.open({
                         message: res.data.text,
                         duration: 5000,
