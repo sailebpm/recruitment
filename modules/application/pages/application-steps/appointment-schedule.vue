@@ -2,13 +2,13 @@
     <div>
         <v-card :loading="loading" v-if="info!=null" elevation="1" class="ma-3">
 
-            
-          
+
+
             <v-card-title v-if="appointmentPaper != null &&  this.appointmentPaper.status == 2"> Subject: Congratulations you are hired!</v-card-title>
             <v-card-title v-else> Subject: Appointment Papers Schedule!</v-card-title>
             <v-card-title v-if="appointmentPaper != null && this.appointmentPaper.status == 2"> Thank you, {{ info != null ? fullname : " "}}! </v-card-title>
             <v-card-title v-else> Hello, {{ info != null ? fullname : " "}}! </v-card-title>
-            
+
             <v-card-text v-if="appointmentPaper != null && appointmentRequirements.status == 2 ">
                 <v-col cols="6">
                     {{ message.wait_appointment }}
@@ -24,7 +24,7 @@
                 </v-col>
             </v-card-text>
 
-            <v-card-text v-if="appointmentPaper != null && this.appointmentPaper.status != 2" class="pa-5">  
+            <v-card-text v-if="appointmentPaper != null && this.appointmentPaper.status != 2" class="pa-5">
                 <v-col cols="6">
                         <b>
                             {{message.details_appointment}}
@@ -33,9 +33,9 @@
             </v-card-text>
 
             <v-card-text v-if="appointmentPaper != null && this.appointmentPaper.status == 2">
-            
+
                 <b>
-                 You successfully finished the final evaluation. 
+                 You successfully finished the final evaluation.
                  <br>
                  Congratulations, {{fullname}}! You are selected for the position of {{positionName}}.
                 <br>
@@ -43,13 +43,13 @@
                 <v-col cols="6">
                 To access the Employee Self-Service (ESS) Portal. Kindly follow the link and Your Email / employee number and password will be the same credentials you will use to login in the Employee portal.
                 Click <a class="blue--text login" :href="this.$config.adg">here</a> to proceed to Employee Portal.<br><br>
-                 </v-col>     
+                 </v-col>
                 </b>
-         
+
             </v-card-text>
-    
+
             <v-card-actions class="d-flex flex-row-reverse">
-            
+
             </v-card-actions>
         </v-card>
         <v-skeleton-loader v-else type="card-avatar, article, actions"></v-skeleton-loader>
@@ -73,12 +73,12 @@
                     thankyou: "",
                     details_appointment: "",
                     completed: "We'll notify you once your appointment paper schedule is posted. Thank you for patiently waiting.",
-                
+
                 },
             };
         },
-        async created() {
-            this.getRequirments();
+        created() {
+            this.getRequirements();
             this.getAppointment();
             this.getPosition()
             this.getInfo();
@@ -96,7 +96,7 @@
                 });
             },
 
-            async getRequirments() {
+            async getRequirements() {
                 await this.$axios.post("/applicant/fetch_requirement_status").then((res) => {
                     this.appointmentRequirements = res.data.data;
                     this.status = this.appointmentRequirements.status;
@@ -108,7 +108,7 @@
                 if(res.data.data != null){
                     this.positionName = res.data.data.position.title
                 }
-                
+
             })
         },
 
