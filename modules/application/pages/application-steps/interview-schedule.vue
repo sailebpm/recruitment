@@ -38,7 +38,7 @@
                                             v-model="reasonForResched"
                                             outlined
                                             name="input-7-4"
-                                            label="State your reason and preferred date of exam"
+                                            label="State your reason and preferred date of final interview"
                                             hide-details
                                         ></v-textarea>
                                     </v-list-item>
