@@ -39,7 +39,7 @@
             <v-card-actions class="d-flex flex-row-reverse">
                 <div> <v-btn v-if="schedule !=null && schedule.status ==1" :disabled="btnDisable" color="primary darken-3" class="ml-2 text-capitalize" @click="acknowledge"> Acknowledge </v-btn></div>
                 <div>
-                    <RequestModal v-if="schedule != null && schedule.status == 1 && countReSchedule != 2">
+                    <RequestModal v-if="schedule != null && schedule.status == 1 && countReSchedule != 2" :disabled="btnDisable">
                         <template v-slot:dialog_content>
                             <v-card-text class="pt-4 pb-5 black--text">
                                 <v-list>
@@ -95,7 +95,6 @@ export default {
                 schedule: null,
                 reschedule: "We are currently revisiting your request for rescheduling. Thank you for patiently waiting.",
             },
-            requestModal: false,
             reasonForResched:"",
         }
     },
@@ -124,7 +123,7 @@ export default {
             })
         },
         async reschedule() {
-            //this.btnDisable = true
+            this.btnDisable = true
             this.loading = true
             const payload = { 
                 schedule_id: this.schedule.id,

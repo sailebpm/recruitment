@@ -34,7 +34,6 @@ export default {
         requestModal: false,
     };
   },
-  methods: {},
 };
 </script>
 
