@@ -179,8 +179,6 @@ export default {
                 console.log(res)
             
                 this.countReSchedule = res.data.count_reschedule
-                // this.countReSchedule = 1
-                // console.log("countReSchedule",this.countReSchedule)
             })
         },
 
