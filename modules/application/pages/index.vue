@@ -4,8 +4,12 @@
             <p class="font-weight-medium mb-0" style="font-size: 16px">Warning</p>
             <p class="mb-0" style="font-size: 14px;"><strong>-</strong> Indicate <strong>N/A</strong> if not applicable. <strong>DO NOT ABBREVIATE.</strong></p>
             <p class="mb-0" style="font-size: 14px"><strong>-</strong> All the requirements should be <strong>printed</strong> and submitted personally to the <strong>HR.</strong></p>
-            <p class="mb-0" style="font-size: 14px"><strong>-</strong> Re-schedule of Exam <strong>(twice only).</strong></p>
+            <p class="mb-0" style="font-size: 14px"><strong>-</strong> Re-schedule of Initial Interview, Exam and Final Interview <strong> (twice only).</strong></p>
         </v-alert>
+
+        <div v-if="this.step >= 8">
+            <UploadRequirements/>
+        </div>
         <v-tabs v-model="procedure" hide-slider class="v-tab__outlined mt-10">
             <v-tab :disabled="disable_all_step_1" class="text-capitalize font-weight-bold" :ripple="false" href="#step1">Step 1: Applicant Response </v-tab>
             <v-tab :disabled="disableStep2" class="text-capitalize font-weight-bold" :ripple="false" href="#step2">Step 2: Schedule of Exam</v-tab>
@@ -76,6 +80,9 @@ import Step5 from './application-steps/interview-status.vue'
 import Step6 from './application-steps/congratulatory.vue'
 import Step7 from './application-steps/submission_of_requirements.vue'
 import Step8 from './application-steps/appointment-schedule.vue'
+
+import UploadRequirements from './applicant-requirements/UploadRequirements.vue'
+
 export default {
     layout: 'sidebar',
     middleware: 'auth',
@@ -146,6 +153,11 @@ export default {
                     text: 'Appointment',
                     link: 'application.appointment-schedule'
                 },
+                {
+                    step: 11,
+                    text: 'Appointment',
+                    link: 'application.appointment-schedule'
+                },
             ],
             step: null,
             procedure: null,
@@ -166,7 +178,8 @@ export default {
     },
     components: {
         // PageInfo,
-         Step1, Step1_1, Step1_2, Step2, Step3, Step4, Step5, Step6, Step7, Step8
+         Step1, Step1_1, Step1_2, Step2, Step3, Step4, Step5, Step6, Step7, Step8,
+         UploadRequirements
     },
     methods: {
         async getCurrentStep(){
@@ -225,7 +238,7 @@ export default {
                     this.procedure = 'step7'
                   
                 }
-                if(this.step == "10"){
+                if(this.step == "10" || this.step == "11"){
                     this.disableStep8 = false
                     this.disable_all_step_1 = true
                     this.procedure = 'step8'
