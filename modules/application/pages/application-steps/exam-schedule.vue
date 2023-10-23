@@ -133,7 +133,6 @@ export default {
             .then(async (res) => {
                 await this.$axios.post('/applicant/reschedule', payload)
                 .then((res) => {
-                    console.log("payload",payload)
                     this.$toast.open({
                         message: res.data.text,
                         duration: 5000,
@@ -176,8 +175,6 @@ export default {
 
         async countResched(){
             await this.$axios.post('/applicant/fetch_resched_count').then((res) => {
-                console.log(res)
-            
                 this.countReSchedule = res.data.count_reschedule
             })
         },
