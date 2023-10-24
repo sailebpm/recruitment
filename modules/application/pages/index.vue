@@ -8,7 +8,7 @@
         </v-alert>
 
         <div v-if="this.step >= 8">
-            <UploadRequirements/>
+            <UploadRequirements :applicant_information="info"/>
         </div>
         <v-tabs v-model="procedure" hide-slider class="v-tab__outlined mt-10">
             <v-tab :disabled="disable_all_step_1" class="text-capitalize font-weight-bold" :ripple="false" href="#step1">Step 1: Applicant Response </v-tab>
@@ -92,6 +92,7 @@ export default {
         // this.$store.commit('sidenav/setLinks', this.nav )
         this.getCurrentStep();
         this.routeToStep();
+        this.getInfo();
     },
     
     
@@ -153,12 +154,8 @@ export default {
                     text: 'Appointment',
                     link: 'application.appointment-schedule'
                 },
-                {
-                    step: 11,
-                    text: 'Appointment',
-                    link: 'application.appointment-schedule'
-                },
             ],
+            info: null,
             step: null,
             procedure: null,
             stepOne_tab: null,
@@ -238,7 +235,7 @@ export default {
                     this.procedure = 'step7'
                   
                 }
-                if(this.step == "10" || this.step == "11"){
+                if(this.step == "10"){
                     this.disableStep8 = false
                     this.disable_all_step_1 = true
                     this.procedure = 'step8'
@@ -252,9 +249,14 @@ export default {
         routeToStep() {
             let step = this.steps.find(step => step.step == store.state.step);
             this.$router.push({name: step.link});
-        }
-    },
+        },
 
+        async getInfo(){
+            await this.$axios.get('/applicant/user').then((res) => {
+                this.info = res.data
+            })
+        },
+    },
     watch: {
         currentStep() {
             this.routeToStep();

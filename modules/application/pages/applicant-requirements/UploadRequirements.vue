@@ -54,12 +54,21 @@
     import SupplementaryRequirements from "./SupplementaryRequirements.vue";
     import OtherRequirements from "./OtherRequirements.vue";
     export default {
+      
       name: "UploadRequirements",
       components: {
         CompletionAccomplishment,
         SupplementaryRequirements,
         OtherRequirements
       },
+      props: {
+        applicant_information: {
+            type: Object,
+            default: () => {},
+            required: true
+        },   
+      },
+      
       data() {
         return {
           loading: false,
@@ -90,7 +99,7 @@
             });
           this.loading = false;
         },
-        downloadFile(payload) {
+        downloadFile(payload, title, fileType) {
             this.$axios({
                 url: '/applicant/download-file-attachment',
                 method: 'POST',
@@ -100,8 +109,9 @@
             .then((res) => {
               const url = window.URL.createObjectURL(new Blob([res.data]));
                 const link = document.createElement('a');
+                let fullName = this.applicant_information.lname.toUpperCase()+"_"+this.applicant_information.fname.toUpperCase()
                 link.href = url;
-                link.setAttribute('download', "test"+"."+"pdf");
+                link.setAttribute('download', fullName+" ("+title+")"+fileType);
                 link.click();
             })
             .catch((err) => {

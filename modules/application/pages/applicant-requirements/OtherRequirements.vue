@@ -102,7 +102,9 @@
             applicant_req_id: item.applicant_req_id,
             entityName: "OtherRequirements",
           }
-          this.$emit('downloadFile', payload)
+          let title = item.supplemental_details.title
+          let fileType = item.attachment.match(/\.([^.]+)$/);
+          this.$emit('downloadFile', payload, title, fileType[0])
         },
        async submitFiles() {
         let formData = new FormData();
