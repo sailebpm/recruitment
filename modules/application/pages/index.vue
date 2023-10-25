@@ -88,8 +88,6 @@ export default {
     middleware: 'auth',
     props: ['nav'],
     created() {
-        // this.$store.commit('sidenav/setTitle', "Recruitment")
-        // this.$store.commit('sidenav/setLinks', this.nav )
         this.getCurrentStep();
         this.routeToStep();
         this.getInfo();
