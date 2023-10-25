@@ -83,12 +83,14 @@ export default {
                 reschedule: "We are currently revisiting your request for rescheduling. Thank you for patiently waiting.",
             },
             reasonForResched:"",
+            countReSchedule:null,
         }
     },
     created(){
         this.getInfo()
         this.getSchedule()
         this.getPosition()
+        this.countReSched()
     },
     computed: {
         fullname(){
@@ -132,6 +134,11 @@ export default {
             await this.$axios.get('/applicant/fetch_position').then((res) => {
                 this.positionName = res.data.data.position.title
                 
+            })
+        },
+        async countResched(){
+            await this.$axios.post('/applicant/fetch_resched_count').then((res) => {
+                this.countReSchedule = res.data.count_reschedule
             })
         },
 
