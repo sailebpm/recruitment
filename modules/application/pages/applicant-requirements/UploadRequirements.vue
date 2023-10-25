@@ -128,13 +128,13 @@
             .post("/applicant/upload-file-attachment", payload)
             .then((res) => {
               this.$swal.fire({
-                title: "upload successful",
+                title: "Your document has been successfully uploaded",
                 icon: "success",
               });
             })
             .catch((err) => {
                 this.$toast.open({
-                    message: 'There was an error',
+                    message: 'There was an error uploading the file',
                     type: 'error',
                     duration: 3000,
                     pauseOnHover: true,
