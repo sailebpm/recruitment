@@ -435,6 +435,14 @@ export default {
 					type: 'text',
 					rules: [(v) => !!v || 'This is a required field']
                 },
+				{
+					entityName: 'government_id_expiration',
+                    label: 'Date of Expiration',
+                    value: '',
+					skip: false,
+					type: 'date',
+					rules: [(v) => !!v || 'This is a required field']
+                },
             ],
 			attachments: [
 				{	entityName: 'diploma_file',
@@ -512,15 +520,15 @@ export default {
 				var value = res.data.data
 				this.ref = value[8].pre_employment_column
 				this.references[0].info[0].value = this.ref[0].field_value // name 1
-				this.references[0].info[1].value = this.ref[1].field_value 
-				this.references[0].info[2].value = this.ref[2].field_value 
+				this.references[0].info[1].value = this.ref[1].field_value
+				this.references[0].info[2].value = this.ref[2].field_value
 				this.references[1].info[0].value = this.ref[3].field_value // name 1
-				this.references[1].info[1].value = this.ref[4].field_value 
-				this.references[1].info[2].value = this.ref[5].field_value 
+				this.references[1].info[1].value = this.ref[4].field_value
+				this.references[1].info[2].value = this.ref[5].field_value
 				this.references[2].info[0].value = this.ref[6].field_value // name 1
-				this.references[2].info[1].value = this.ref[7].field_value 
-				this.references[2].info[2].value = this.ref[8].field_value 
-				
+				this.references[2].info[1].value = this.ref[7].field_value
+				this.references[2].info[2].value = this.ref[8].field_value
+
 			});
 
 	},
