@@ -90,7 +90,7 @@ export default {
         this.getInfo()
         this.getSchedule()
         this.getPosition()
-        this.countReSched()
+        //this.countReSched()
     },
     computed: {
         fullname(){
@@ -137,7 +137,7 @@ export default {
             })
         },
         async countResched(){
-            await this.$axios.post('/applicant/fetch_resched_count').then((res) => {
+            await this.$axios.post('/applicant/fetch_exam_resched_count').then((res) => {
                 this.countReSchedule = res.data.count_reschedule
             })
         },

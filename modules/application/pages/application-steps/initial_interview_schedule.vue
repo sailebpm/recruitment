@@ -163,7 +163,7 @@ export default {
             })
         },
         async countResched(){
-            await this.$axios.post('/applicant/fetch_resched_count').then((res) => {
+            await this.$axios.post('/applicant/fetch_initial_resched_count').then((res) => {
                 this.countReSchedule = res.data.count_reschedule
             })
         },
