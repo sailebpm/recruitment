@@ -10,7 +10,7 @@
                 <v-btn elevation="0" @click="login" color="blue" dense outlined hide-details>
                 Login
                 </v-btn> 
-                <a :href="$config.adg + 'applicant'">
+                <a :href="$config.adg + '#/applicant'">
             </a>
             
             </div>
@@ -56,7 +56,7 @@ export default {
     },
     methods: {
         login(){
-            window.location.href = this.$config.adg + "applicant";                                             
+            window.location.href = this.$config.adg + "#/applicant";                                             
         },
         logout() {
             this.$swal.fire({

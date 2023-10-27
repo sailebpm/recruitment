@@ -52,10 +52,7 @@
                             </v-checkbox>
                             <v-btn @click="viewPreEmploy()" block :disabled="!agree" :loading="loading" elevation="1">Next</v-btn>
                             <div class="d-flex justify-center justify-sm-end mb-3 mr-sm-1 px-1"></div>
-                            <!-- <div>
-                            <v-btn block color="yellow darken-1" :disabled="!agree" :loading="loading" elevation="1" type="submit"> Register </v-btn>
-                        </div> -->
-                            <div style="font-size: 14px;" class="mt-8">Already have an account? <a class="blue--text login" :href="this.$config.adg + 'applicant'"> Log In </a></div>
+                            <div style="font-size: 14px;" class="mt-8">Already have an account? <a class="blue--text login" :href="this.$config.adg + '#/applicant'"> Log In </a></div>
                         </v-form>
                     </v-col>
                 </v-row>
@@ -232,7 +229,7 @@
                                                     duration: 3000,
                                                 });
                                                 this.$axios.post('/applicant/pre-employment/create_pre_employment',  {applicant_information: payload1, applicant: res.data}).then((res) => {
-                                                    window.location.href = this.$config.adg + "applicant";
+                                                    window.location.href = this.$config.adg + "#/applicant";
                                                  })
                                             })
                                             .catch((err) => {
