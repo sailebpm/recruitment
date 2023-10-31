@@ -49,7 +49,7 @@
             </v-card-text>
 
             <v-card-actions class="d-flex flex-row-reverse">
-
+                <v-btn class="text-capitalize" v-model="download" color="primary" @click="downloadAppointmentForm">Download Appointment Form</v-btn>
             </v-card-actions>
         </v-card>
         <v-skeleton-loader v-else type="card-avatar, article, actions"></v-skeleton-loader>
@@ -60,6 +60,7 @@
     export default {
         data() {
             return {
+                path: '',
                 positionName: null,
                 loading: false,
                 status: "",
@@ -78,6 +79,7 @@
             };
         },
         created() {
+            this.fetchPath();
             this.getRequirements();
             this.getAppointment();
             this.getPosition()
@@ -121,6 +123,45 @@
                     }
                 });
             },
+
+            async fetchPath(){
+                const res = await this.$axios.post("/applicant/fetch-appointment-form");
+                this.path = res.data.data.file_path;
+            },
+
+            async downloadAppointmentForm() {
+                if (this.path != null) {
+                    const payload = {
+                        path: this.path
+                    };
+
+                    try {
+                        const response = await this.$axios.post("/applicant/download-form-applicant", payload, { responseType: "blob" });
+                        const blob = new Blob([response.data], { type: 'application/pdf' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = this.fullname.replace(/ /g, '_') + '_Appoinment_Form.pdf';
+                        a.click();
+                    } catch (err) {
+                        if (err.response.status == "403" || err.response.status == "422" || err.response.status == "400") {
+                                var x = "";
+                                this.$jquery.each(err.response.data.errors, (i, v) => {
+                                    x += v + "<br>";
+                                });
+                        this.$toast.open({
+                            message: x,
+                            position: "bottom-right",
+                            type: "error",
+                            duration: 3000,
+                            pauseOnHover: true,
+                        });
+                    } else {
+                        throw err.response.data;
+                    }
+                    }
+                }
+            }
         },
     };
 </script>
