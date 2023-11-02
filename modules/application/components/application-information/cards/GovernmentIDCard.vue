@@ -9,7 +9,7 @@
 						<v-container>
 							<v-row>
 								<v-col cols="12" class="py-0" v-for="(governmentID, index) in governmentID" :key="index">
-									<v-text-field :label="governmentID.label" v-model="governmentID.value" :type="governmentID.label === 'Date of Expiration' ? 'date' : 'text'" outlined dense></v-text-field>
+									<v-text-field :label="governmentID.label" v-model="governmentID.value" :type="governmentID.type" outlined dense></v-text-field>
 								</v-col>
 							</v-row>
 						</v-container>
