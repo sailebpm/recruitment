@@ -2,8 +2,6 @@
     <div>
         <v-card :loading="loading" v-if="info!=null" elevation="1" class="ma-3">
 
-
-
             <v-card-title v-if="appointmentPaper != null &&  this.appointmentPaper.status == 2"> Subject: Congratulations you are hired!</v-card-title>
             <v-card-title v-else> Subject: Appointment Papers Schedule!</v-card-title>
             <v-card-title v-if="appointmentPaper != null && this.appointmentPaper.status == 2"> Thank you, {{ info != null ? fullname : " "}}! </v-card-title>
@@ -14,7 +12,6 @@
                     {{ message.wait_appointment }}
                 </v-col>
             </v-card-text>
-
 
             <v-card-text v-if="appointmentRequirements.status == 3 && appointmentPaper == null">
                 <v-col cols="6">
@@ -131,37 +128,29 @@
 
             async downloadAppointmentForm() {
                 if (this.path != null) {
-                    const payload = {
-                        path: this.path
-                    };
+                    const payload = { path: this.path };
 
-                    try {
-                        const response = await this.$axios.post("/applicant/download-form-applicant", payload, { responseType: "blob" });
-                        const blob = new Blob([response.data], { type: 'application/pdf' });
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = this.fullname.replace(/ /g, '_') + '_Appoinment_Form.pdf';
-                        a.click();
-                    } catch (err) {
-                        if (err.response.status == "403" || err.response.status == "422" || err.response.status == "400") {
-                                var x = "";
-                                this.$jquery.each(err.response.data.errors, (i, v) => {
-                                    x += v + "<br>";
+                    await this.$axios
+                        .post("/applicant/download-form-applicant", payload, { responseType: "blob" })
+                        .then((response) =>{
+                            const blob = new Blob([response.data], { type: 'application/pdf' });
+                            const url = URL.createObjectURL(blob);
+                            const a = Object.assign(document.createElement('a'), { href: url, download: this.fullname.replace(/ /g, '_') + '_Appointment_Form.pdf' });
+                            a.click();
+                        })
+                        .catch((err) => {
+                            if (err.response.status == "404") {
+                                this.$toast.open({
+                                    message: 'File Not Found',
+                                    position: "bottom-right",
+                                    type: "error",
+                                    duration: 3000,
+                                    pauseOnHover: true,
                                 });
-                        this.$toast.open({
-                            message: x,
-                            position: "bottom-right",
-                            type: "error",
-                            duration: 3000,
-                            pauseOnHover: true,
-                        });
-                    } else {
-                        throw err.response.data;
-                    }
-                    }
+                            }
+                        })
                 }
-            }
+            },
         },
     };
 </script>
