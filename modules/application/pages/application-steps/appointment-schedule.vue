@@ -9,6 +9,13 @@
             <v-card-title v-if="appointmentPaper != null && this.appointmentPaper.status == 2"> Thank you, {{ info != null ? fullname : " "}}! </v-card-title>
             <v-card-title v-else> Hello, {{ info != null ? fullname : " "}}! </v-card-title>
 
+            <v-card-text v-if="appointmentPaper != null && appointmentRequirements.status == 2 ">
+                <v-col cols="6">
+                    {{ message.wait_appointment }}
+                </v-col>
+            </v-card-text>
+
+
             <v-card-text v-if="appointmentRequirements.status == 3 && appointmentPaper == null">
                 <v-col cols="6">
                     <b>
