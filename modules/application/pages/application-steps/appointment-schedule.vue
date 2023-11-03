@@ -1,7 +1,6 @@
 <template>
     <div>
         <v-card :loading="loading" v-if="info!=null" elevation="1" class="ma-3">
-            <v-card :loading="loading" v-if="info!=null" elevation="1" class="ma-3">
 
 
 
