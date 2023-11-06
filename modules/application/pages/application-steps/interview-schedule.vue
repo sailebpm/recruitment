@@ -90,7 +90,7 @@ export default {
         this.getInfo()
         this.getSchedule()
         this.getPosition()
-        //this.countReSched()
+        this.countReSched()
     },
     computed: {
         fullname(){
