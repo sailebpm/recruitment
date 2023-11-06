@@ -30,7 +30,7 @@
                 </v-col>
             </v-card-text>
 
-            
+
             <v-card-text class="pa-5" v-if="appointmentRequirements != null && appointmentRequirements.status == 3">
                 <v-col cols="6">
                     <div>
@@ -41,12 +41,10 @@
                 </v-col>
             </v-card-text>
 
-        
+
 
             <v-card-actions class="d-flex flex-row-reverse">
-                <v-btn  v-if="appointmentRequirements != null && appointmentRequirements.status == 1" color="primary darken-3" class="ml-2 text-capitalize" @click="acknowledgeRequirement"> Acknowledge </v-btn>
-                <v-btn  v-if="appointmentRequirements != null && appointmentRequirements.status == 3" color="primary darken-3" class="ml-2 text-capitalize" @click="acknowledge"> Acknowledge </v-btn>
-            </v-card-actions>
+                <v-btn  v-if="appointmentRequirements != null && appointmentRequirements.status == 1" color="primary darken-3" class="ml-2 text-capitalize" @click="acknowledgeRequirement"> Acknowledge </v-btn>            </v-card-actions>
         </v-card>
         <v-skeleton-loader v-else type="card-avatar, article, actions"></v-skeleton-loader>
     </div>
@@ -71,13 +69,13 @@
                     thankyou: "",
                     details_requirements: "",
                     details_appointment: "",
-                    completed: "The requirements has been checked and are all complete. Please check the schedule of appointment papers on the next step.",
+                    completed: "The requirements has been checked and are all complete. We'll notify you once your appointment paper schedule is posted. Thank you for patiently waiting.",
                     review: "We are currently reviewing your requirements. Thank you for patiently waiting.",
                 },
             };
         },
         async created() {
-            this.getRequirments();
+            this.getRequirements();
             this.getAppointment();
             this.getInfo();
         },
@@ -87,18 +85,6 @@
             },
         },
         methods: {
-            async acknowledge() {
-            await this.$axios.post('/applicant/step/next')
-            .then((res) => {
-                this.$router.go()
-            }).catch((err) => {
-                this.$toast.open({
-                    type: 'error',
-                    message: "Something went wrong.",
-                    duration: 5000,
-                })
-            })
-        },
             async acknowledgeRequirement() {
                 await this.$axios
                     .post("/applicant/update_acknowledge_requirements")
@@ -120,7 +106,7 @@
                 });
             },
 
-            async getRequirments() {
+            async getRequirements() {
                 await this.$axios.post("/applicant/fetch_requirement_status").then((res) => {
                     this.appointmentRequirements = res.data.data;
                     if(this.appointmentRequirements != null){
