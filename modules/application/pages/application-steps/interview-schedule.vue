@@ -136,7 +136,7 @@ export default {
                 
             })
         },
-        async countResched(){
+        async countReSched(){
             await this.$axios.post('/applicant/fetch_exam_resched_count').then((res) => {
                 this.countReSchedule = res.data.count_reschedule
             })
