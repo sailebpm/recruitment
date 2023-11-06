@@ -658,6 +658,7 @@ export default {
       personal_information: [],
     };
   },
+
   computed: {
     user() {
       var user = this.$store.getters["auth/user"];
@@ -667,6 +668,7 @@ export default {
       return this.$store.getters["auth/check"];
     },
   },
+
   async created() {
     await this.$axios
       .post("applicant/pre-employment/fetching_pre_employment")
@@ -707,6 +709,7 @@ export default {
         this.loading = false;
       });
   },
+  
   watch: {
     personalInformation: {
       handler() {
