@@ -43,7 +43,7 @@
                                 item-value="position_id"
                             >
                             </v-autocomplete>
-                            <v-checkbox dense v-model="agree">
+                            <v-checkbox dense v-model="agree" color="#2d3270">
                                 <template v-slot:label>
                                     <span style="font-size: 14px;">
                                         By using this website, you agree to the data that we are collecting from you.
@@ -71,7 +71,7 @@
                 positionChoice_id: null,
                 firstChoice: null,
                 positionChoice: null,
-                positionOption: [],
+                positionOption: null,
                 modal_preemployment: false,
                 options: [],
                 open: true,
@@ -87,10 +87,10 @@
                         password: [(v) => !!v || "Password is a required field"],
                         confirmPassword: [(v) => v == this.data.register.password || "Password does not match"],
                         email: [(v) => !!v || "Email is a required field", (v) => /.+@.+/.test(v) || "Invalid E-Mail address"],
-                        position_options: [(v) => !!v || "Position Option is a required field"],
-                    },
-                },
-
+                        position_options:  [
+                            (v) => !!v || "Position Options is a required field", 
+                            (v) => (v && v.length != 0) || "Position Options must not be empty",                         ]},
+                        },
                 data: {
                     register: {
                         firstname: "",
@@ -281,7 +281,7 @@
     };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
     .label-text {
         font-size: 14px;
     }
