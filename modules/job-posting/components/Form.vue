@@ -62,7 +62,7 @@
 </template>
 
 <script>
-    import pre_employment from "./pre-employment.vue";
+    import pre_employment from "./PreEmployment.vue";
     export default {
         components: { pre_employment },
         props: ["job"],

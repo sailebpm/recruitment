@@ -110,11 +110,11 @@
 </template>
 
 <script>
-    import ContactInformation from "./pre-employment-form/ContactInformation.vue";
-    import PersonalInformation from "./pre-employment-form/PersonalInformation.vue";
-    import Skills_Educational_Attainment from "./pre-employment-form/Skills_Educational_Attainment.vue";
-    import WorkExperienceTrainings from "./pre-employment-form/WorkExperienceTrainings.vue";
-    import BackgroundCheckNotice from "./pre-employment-form/BackgroundCheckNotice.vue";
+    import ContactInformation from "./pre_employment_form/ContactInformation.vue";
+    import PersonalInformation from "./pre_employment_form/PersonalInformation.vue";
+    import Skills_Educational_Attainment from "./pre_employment_form/Skills_Educational_Attainment.vue";
+    import WorkExperienceTrainings from "./pre_employment_form/WorkExperienceTrainings.vue";
+    import BackgroundCheckNotice from "./pre_employment_form/BackgroundCheckNotice.vue";
     import jsPDF from "jspdf";
     import "jspdf-autotable";
     export default {

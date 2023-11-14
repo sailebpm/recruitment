@@ -28,6 +28,7 @@ export default {
     dms_site: process.env.DMS_SITE,
     jp_site: process.env.JP_SITE,
     crr_name: process.env.CRR_NAME,
+    login_page: process.env.LOGIN_PAGE,
     axios: {
       baseURL: 'https://api.nuxtjs.dev'
     }
