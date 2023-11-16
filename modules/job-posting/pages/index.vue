@@ -7,7 +7,7 @@
                     <h1 class="text-uppercase">list of job vacancies</h1>
                     <v-breadcrumbs :items="breadcrumbs" divider="/" class="pl-0">
                         <template v-slot:item="{item}">
-                            <v-breadcrumbs-item @click="resetCrumbs" :disabled="item.disabled" class="blue--text crumb">
+                            <v-breadcrumbs-item @click="resetCrumbs" :disabled="item.disabled" class="indigo--text crumb">
                                 {{ item.text }}
                             </v-breadcrumbs-item>
                         </template>
@@ -40,7 +40,7 @@
                         </v-card-text>
 
                         <v-card-actions class="pa-4 d-flex justify-center">
-                            <v-btn color="primary darken-5" @click="openForm(selected)" class="mx-2"> Apply </v-btn>
+                            <v-btn color="#2d3270" @click="openForm(selected)" class="mx-2 white--text"> Apply </v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-sheet>
@@ -71,7 +71,7 @@
                                         </div>
                                     </v-card-text>
                                     <v-card-actions class="pa-4 d-flex flex-row-reverse justify-self-end">
-                                        <v-btn color="primary" @click="openJob(job)">
+                                        <v-btn class="white--text" color="#2d3270" @click="openJob(job)">
                                             Apply
                                         </v-btn>
                                     </v-card-actions>
@@ -91,7 +91,7 @@
                         </v-col>
                     </template>
 
-                    <v-col cols="12">
+                    <v-col cols="12 mt-5">
                         <v-pagination class="pagination text-center" v-model="page" :length="pageCount" :total-visible="itemsPerPage > 2 ? itemsPerPage : 5" @input="onPageChange" color="#2d3270"></v-pagination>
                     </v-col>
                 </v-row>
