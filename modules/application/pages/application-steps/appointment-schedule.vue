@@ -42,7 +42,7 @@
             </v-card-text>
 
             <v-card-actions class="d-flex flex-row-reverse">
-                <v-btn class="text-capitalize" v-model="download" color="primary" @click="downloadAppointmentForm">Download Appointment Form</v-btn>
+                <v-btn v-model="download" v-if="!downloadDisabled" class="text-capitalize" color="primary" @click="downloadAppointmentForm">Download Appointment Form</v-btn>
             </v-card-actions>
         </v-card>
         <v-skeleton-loader v-else type="card-avatar, article, actions"></v-skeleton-loader>
@@ -54,6 +54,8 @@
         data() {
             return {
                 path: '',
+                downloadDisabled: false,
+                download: '',
                 positionName: null,
                 loading: false,
                 status: "",
@@ -116,10 +118,17 @@
                 });
             },
 
-            async fetchPath(){
+            async fetchPath() {
                 const res = await this.$axios.post("/applicant/fetch-appointment-form");
-                this.path = res.data.data.file_path;
+                    if (res.data && res.data.data && res.data.data.file_path) {
+                        this.path = res.data.data.file_path;
+                        this.downloadDisabled = false;
+                    } else {
+                        this.path = null;
+                        this.downloadDisabled = true;
+                    }
             },
+
 
             async downloadAppointmentForm() {
                 if (this.path != null) {
