@@ -61,7 +61,7 @@
                                     <v-card-title> {{ job.position_title }} </v-card-title>
                                     <v-card-subtitle>
                                         <div>
-                                            {{ job.description ? job.description : "N/A" }}
+                                           
                                         </div>
                                         <div>
                                             <strong>Available Slot/s: </strong>{{ job.slots }}
