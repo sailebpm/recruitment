@@ -15,7 +15,7 @@ export default ({ app, store, redirect }) => {
     
     const clientURL = window.location.origin;
 
-    request.baseURL = clientURL == 'http://100.121.217.142' ? 'http://100.109.59.142/api' : process.env.apiUrl
+    request.baseURL = clientURL == 'http://100.121.217.142' ? 'http://100.109.59.142/backend/public/api' : process.env.apiUrl
 
     const token = store.getters['auth/token']
 
