@@ -33,10 +33,16 @@
                                     <div v-if="selected.show_salary==1">
                                         {{ selected.salary.value==undefined ? 'N/A' :  "PHP " + selected.salary.value}}
                                     </div>
+                                    <div>
+                                        {{ selected.item_code }}
+                                    </div>
                                 </v-card-text>
                                 <v-card-text v-if="sector.name == 'private'" class="text-center text--primary" >
                                     <div v-if="selected.show_salary==1">
                                         {{ selected.salary==undefined ? 'N/A' :  "PHP " + selected.salary}}
+                                    </div>
+                                    <div>
+                                        {{ selected.item_code }}
                                     </div>
                                 </v-card-text>
 
@@ -61,7 +67,7 @@
                                     <v-card-title> {{ job.position_title }} </v-card-title>
                                     <v-card-subtitle>
                                         <div>
-                                            {{ job.description ? job.description : "N/A" }}
+                                           
                                         </div>
                                         <div>
                                             <strong>Available Slot/s: </strong>{{ job.slots }}
