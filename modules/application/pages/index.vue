@@ -1,10 +1,12 @@
 <template>
     <div>
         <v-alert border="left" colored-border type="warning" elevation="2">
-            <p class="font-weight-medium mb-0" style="font-size: 16px">Warning</p>
+            <p class="font-weight-medium mb-0" style="font-size: 16px">Note:</p>
             <p class="mb-0" style="font-size: 14px;"><strong>-</strong> Indicate <strong>N/A</strong> if not applicable. <strong>DO NOT ABBREVIATE.</strong></p>
+            <p class="mb-0" style="font-size: 14px"><strong>-</strong> Please remember to click the <strong>"Acknowledge"</strong> button if it appears during the application process. This step is essential to proceed.</p>
             <p class="mb-0" style="font-size: 14px"><strong>-</strong> All the requirements should be <strong>printed</strong> and submitted personally to the <strong>HR.</strong></p>
             <p class="mb-0" style="font-size: 14px"><strong>-</strong> Re-schedule of Initial Interview, Exam and Final Interview <strong> (twice only).</strong></p>
+        
         </v-alert>
 
         <div v-if="this.step >= 8">
