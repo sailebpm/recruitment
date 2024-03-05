@@ -53,7 +53,7 @@
     export default {
         data() {
             return {
-                path: '',
+                applicant_form_id: '',
                 downloadDisabled: false,
                 download: '',
                 positionName: null,
@@ -120,26 +120,26 @@
 
             async fetchPath() {
                 const res = await this.$axios.post("/applicant/fetch-appointment-form");
-                    if (res.data && res.data.data && res.data.data.file_path) {
-                        this.path = res.data.data.file_path;
+                    if (res.data && res.data.data && res.data.data.id) {
+                        this.applicant_form_id = res.data.data.id;
                         this.downloadDisabled = false;
                     } else {
-                        this.path = null;
+                        this.applicant_form_id = null;
                         this.downloadDisabled = true;
                     }
             },
 
 
             async downloadAppointmentForm() {
-                if (this.path != null) {
-                    const payload = { path: this.path };
+                if (this.applicant_form_id != null) {
+                    const payload = { id: this.applicant_form_id };
 
                     await this.$axios
                         .post("/applicant/download-form-applicant", payload, { responseType: "blob" })
                         .then((response) =>{
-                            const blob = new Blob([response.data], { type: 'application/pdf' });
+                            const blob = new Blob([response.data], { type: 'application/zip' });
                             const url = URL.createObjectURL(blob);
-                            const a = Object.assign(document.createElement('a'), { href: url, download: this.fullname.replace(/ /g, '_') + '_Appointment_Form.pdf' });
+                            const a = Object.assign(document.createElement('a'), { href: url, download: this.fullname.replace(/ /g, '_') + '_Appointment_Form.zip' });
                             a.click();
                         })
                         .catch((err) => {
