@@ -2,7 +2,7 @@
 	<v-container fluid>
 		<ChoicesCard :choices="choices" />
 		<ReferenceCard :references="references"/>
-        <GovernmentIDCard :governmentID="governmentID"/>
+        <GovernmentIDCard :governmentID="governmentID"  @addMoreField="addMoreGovIDField" @removeField="removeGovermentIDField"/>
 		<FileAttachmentCard :attachments="attachments"/>
 	</v-container>
 </template>
@@ -411,17 +411,28 @@ export default {
 				},
 			],
             governmentID: [
-                {
+				{
+					tableName: 'government_id',
+					govIDs: {
+				info: [
+				{
 					entityName: 'government_issued_id',
                     label: 'Government Issued ID',
                     value: '',
 					skip: false,
 					type: 'text',
+					items: [ 
+						{ name: "Passport" },
+                    	{ name: "GSIS" },
+                    	{ name: "SSS" },
+						{ name: "PRC" },
+						{ name: "Driver's License" },
+					],
 					rules: [(v) => !!v || 'This is a required field']
                 },
                 {
 					entityName: 'government_id_no',
-                    label: 'ID/License/Passport No.',
+                    label: 'Governement ID no.',
                     value: '',
 					skip: false,
 					type: 'text',
@@ -443,6 +454,10 @@ export default {
 					type: 'date',
 					rules: [(v) => !!v || 'This is a required field']
                 },
+						]
+					},
+				},
+				
             ],
 			attachments: [
 				{	entityName: 'diploma_file',
@@ -581,7 +596,59 @@ export default {
 	methods: {
 		handleFileUploads(event){
 			this.attachments[event.index].value = event.event;
-		}
+		},
+		addMoreGovIDField() {
+			const govIDs = {
+				tableName: 'government_id',
+				govIDs: {
+					info: [
+						 {
+					entityName: 'government_issued_id',
+                    label: 'Government Issued ID',
+                    value: '',
+					skip: false,
+					type: 'text',
+					items: [ 
+						{ id: 1, name: "Passport" },
+                    	{ id: 2, name: "GSIS" },
+                    	{ id: 3, name: "SSS" },
+						{ id: 4, name: "PRC" },
+						{ id: 5, name: "Driver's License" },
+					],
+					rules: [(v) => !!v || 'This is a required field']
+                },
+                {
+					entityName: 'government_id_no',
+                    label: 'Governement ID no.',
+                    value: '',
+					skip: false,
+					type: 'text',
+					rules: [(v) => !!v || 'This is a required field']
+                },
+                {
+					entityName: 'data_place_issuance',
+                    label: 'Date/Place of Issuance',
+                    value: '',
+					skip: false,
+					type: 'text',
+					rules: [(v) => !!v || 'This is a required field']
+                },
+				{
+					entityName: 'government_id_expiration',
+                    label: 'Date of Expiration',
+                    value: '',
+					skip: false,
+					type: 'date',
+					rules: [(v) => !!v || 'This is a required field']
+                },
+					],
+				},
+			};
+			this.governmentID.push(govIDs);
+		},
+        removeGovermentIDField(formIndex) {
+			this.governmentID.splice(formIndex, 1);
+		},
 	}
 };
 </script>
