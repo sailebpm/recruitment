@@ -289,9 +289,9 @@
                 var firstChoice = this.firstchoice.firstChoice ? this.firstchoice.firstChoice : "N/A";
 
                 if (this.positionChoice != null) {
-                    var secondChoice = this.positionChoice.secondChoice.position.title ? this.positionChoice.secondChoice.position.title : "N/A";
+                    var secondChoice = this.positionChoice.secondChoice.position_title ? this.positionChoice.secondChoice.position_title : "N/A";
                     if (this.positionChoice.thirdChoice != "N/A") {
-                        var thirdChoice = this.positionChoice.thirdChoice.position.title ? this.positionChoice.thirdChoice.position.title : "N/A";
+                        var thirdChoice = this.positionChoice.thirdChoice.position_title ? this.positionChoice.thirdChoice.position_title : "N/A";
                     } else {
                         var thirdChoice = this.positionChoice.thirdChoice;
                     }
