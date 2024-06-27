@@ -7,7 +7,7 @@
                     <h1 class="text-uppercase">list of job vacancies</h1>
                     <v-breadcrumbs :items="breadcrumbs" divider="/" class="pl-0">
                         <template v-slot:item="{item}">
-                            <v-breadcrumbs-item @click="resetCrumbs" :disabled="item.disabled" class="blue--text crumb">
+                            <v-breadcrumbs-item @click="resetCrumbs" :disabled="item.disabled" class="indigo--text crumb">
                                 {{ item.text }}
                             </v-breadcrumbs-item>
                         </template>
@@ -18,26 +18,41 @@
 
             <v-fade-transition leave-absolute hide-on-leave>
                 <v-sheet class="d-flex justify-center mt-5" v-if="selected">
-                    <v-card elevation="1" min-width="320px" max-width="700px;" class="px-4 pb-2">
-                        <v-card-title class="d-flex justify-center mb-4" style="font-size: 30px;"> 
-                            {{ selected.position.title }} 
-                        </v-card-title>
-                        <v-card-subtitle class="text-center">
-                            <div>
-                                {{ selected.item_code}} 
-                            </div> 
-                            <div>
-                                {{ selected.description ? selected.description : "N/A" }} 
-                            </div>
-                        </v-card-subtitle>
-                        <v-card-text class="text-center"> Available Slots: {{ selected.slots }} </v-card-text>
-                        <v-card-text v-if="selected.show_salary==1" class="text-center text--primary" > 
-                            {{ selected.salary.value==undefined ? 'N/A' :  "PHP " + selected.salary.value}} 
-                        </v-card-text>
-                        <v-card-actions class="pa-4 d-flex justify-center">  
-                            <v-btn color="primary darken-5" @click="openForm(selected)" class="mx-2"> Apply </v-btn>
-                        </v-card-actions>
-                    </v-card>
+                    <v-row>
+                        <v-col v-for="(selected, index) in selected.details" :key="index" cols="12" sm="6" md="6" lg="4" xl="3">
+                            <v-card elevation="1" min-width="320px" max-width="700px;" class="px-4 pb-2 m-3">
+                                <v-card-title class="d-flex justify-center mb-4" style="font-size: 30px;">
+                                    {{ selected.position_title }}
+                                </v-card-title>
+                                <v-card-subtitle class="text-center">
+                                    <div>
+                                        {{ selected.description ? selected.description : "N/A" }}
+                                    </div>
+                                </v-card-subtitle>
+                                <v-card-text v-if="sector.name == 'public'" class="text-center text--primary" >
+                                    <div v-if="selected.show_salary==1">
+                                        {{ selected.salary.value==undefined ? 'N/A' :  "PHP " + selected.salary.value}}
+                                    </div>
+                                    <div>
+                                        {{ selected.item_code }}
+                                    </div>
+                                </v-card-text>
+                                <v-card-text v-if="sector.name == 'private'" class="text-center text--primary" >
+                                    <div v-if="selected.show_salary==1">
+                                        {{ selected.salary==undefined ? 'N/A' :  "PHP " + selected.salary}}
+                                    </div>
+                                    <div>
+                                        {{ selected.item_code }}
+                                    </div>
+                                </v-card-text>
+
+                                <v-card-actions class="pa-4 d-flex justify-center">
+                                    <v-btn color="#2d3270" @click="openForm(selected)" class="mx-2 white--text"> Apply </v-btn>
+                                    <v-btn color="#2d3270" @click="openPDF(selected)" class="mx-2 white--text"> View </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-col>
+                    </v-row>
                 </v-sheet>
             </v-fade-transition>
             <v-fade-transition leave-absolute hide-on-leave>
@@ -49,23 +64,28 @@
                                 class="d-flex flex-column"
                                 >
                                 <v-card elevation="1" class="flex-grow-1 d-flex flex-column justify-space-between">
-                                    <v-card-title> {{ job.position.title }} </v-card-title>
-                                    <v-card-subtitle> 
+                                    <v-card-title> {{ job.position_title }} </v-card-title>
+                                    <v-card-subtitle>
                                         <div>
-                                            {{ job.item_code }}
+                                           
                                         </div>
                                         <div>
-                                            {{ job.description ? job.description : "N/A" }} 
+                                            <strong>Available Slot/s: </strong>{{ job.slots }}
                                         </div>
                                     </v-card-subtitle>
-                                    <v-card-text class="text--primary" > 
-                                        <div v-if="job.show_salary==1">
-                                            {{ job.salary.value==undefined ? 'N/A' :  "PHP " + job.salary.value}} 
-                                        </div>  
+                                    <v-card-text class="text--primary" v-if="sector.name == 'public'" >
+                                        <div v-if="job.show_salary === 1">
+                                            {{ job.salary == undefined ? 'N/A' : "PHP " + job.salary.value }}
+                                        </div>
                                     </v-card-text>
-                                    <v-card-actions class="pa-4 d-flex flex-row-reverse justify-self-end"> 
-                                        <v-btn color="primary" @click="openJob(job)">
-                                            Apply 
+                                    <v-card-text class="text--primary" v-if="sector.name == 'private'" >
+                                        <div v-if="job.show_salary === 1">
+                                            {{ job.salary == undefined ? 'N/A' :  "PHP " + job.salary.value}}
+                                        </div>
+                                    </v-card-text>
+                                    <v-card-actions class="pa-4 d-flex flex-row-reverse justify-self-end">
+                                        <v-btn class="white--text" color="#2d3270" @click="openJob(job)">
+                                            Apply
                                         </v-btn>
                                     </v-card-actions>
                                 </v-card>
@@ -83,6 +103,10 @@
                             </v-skeleton-loader>
                         </v-col>
                     </template>
+
+                    <v-col cols="12 mt-5">
+                        <v-pagination class="pagination text-center" v-model="page" :length="pageCount" :total-visible="itemsPerPage > 2 ? itemsPerPage : 5" @input="onPageChange" color="#2d3270"></v-pagination>
+                    </v-col>
                 </v-row>
             </v-fade-transition>
         </v-container>
@@ -91,19 +115,26 @@
 
 <script>
 import Form from '../components/Form.vue';
-
+import jsPDF from 'jspdf';
 export default {
     middleware: ['guest'],
     components: {
         ApplyForm: Form
     },
 
-    mounted() {
+   async mounted() {
         this.initJobs();
+
+        await this.$axios.get('/applicant/sector/fetch_sector_type')
+            .then((res) => {
+                this.sector = res.data
+            });
+
     },
 
     data() {
         return {
+            sector: null,
             jobChosen: null,
             page: 1,
             loading: false,
@@ -115,46 +146,141 @@ export default {
                     disabled: true,
                 }
             ],
-            jobs: [
-                // {
-                //     title: "Graphic Designer",
-                //     description: "Designs the overall UI and UX for the systems",
-                // },
-                // {
-                //     title: "Software Engineer",
-                //     description: "The primary role will be programming new functions for the system.",
-                // },
-                // {
-                //     title: "Project Manager",
-                //     description: "Manages the projects' requirements",
-                // },
-                // {
-                //     title: "Quality Tester",
-                //     description: "Testing system functions if it meets the requirements",
-                // },
-                // {
-                //     title: "Junior Software Engineer (Intern)",
-                //     description: "",
-                // },
-            ]
+            jobs: [],
+            itemsPerPage: 5,
+            page: 1,
+            pageCount: 1,
         }
     },
 
     methods: {
+        onPageChange() {
+            this.initJobs();
+        },
+        openPDF(selected){
+            var forAdjust = false;
+            var doc = new jsPDF();
+            const customPdfText = (text, x, y, fontSize, position = null,bold = false) => {
+                            
+                const textWidth = doc.getStringUnitWidth(text) * fontSize / doc.internal.scaleFactor;
+                const pageWidth = doc.internal.pageSize.getWidth();
 
+                if(position == 'end' ){
+                    x = pageWidth - textWidth - x;
+                }else if(position == 'center'){
+                x = (pageWidth - textWidth) / 2;
+                }
+                
+                doc.setFontSize(fontSize);
+                if(bold){
+                    doc.setFont('Times', 'bold');
+                }
+                if(forAdjust)
+                {
+                    y = y - 10;
+                }
+                doc.text(text, x, y);
+
+                doc.setFont('Times', 'normal');
+            };
+            
+
+            
+            customPdfText(selected.agency, 15, 8,10, null, true);
+            doc.line(15, 15, doc.internal.pageSize.width - 15, 15);
+
+
+            customPdfText('Place of Assignment :', 16, 24, 11.5, null, true);
+            customPdfText(selected.placement_of_assignment, 95, 24, 11.5);
+
+            customPdfText('Position Title :', 16, 34, 11.5, null, true);
+            customPdfText(selected.position_title, 95, 34, 11.5);
+
+            customPdfText('Plantilla Item No. :', 16, 44, 11.5, null, true);
+            customPdfText(selected.item_code, 95, 44, 11.5);
+
+            customPdfText('Salary/Job/Pay Grade : ', 16, 54, 11.5, null, true);
+            customPdfText(selected.salary.salary_grade.toString(), 95, 54, 11.5);
+            forAdjust = true
+            if(selected.show_salary == 1){
+
+                forAdjust = false
+                customPdfText('Monthly Salary :', 16, 64, 11.5, null, true);
+                customPdfText(selected.salary.value, 95, 64, 11.5);
+            }
+            customPdfText('Eligibility :', 16, 74, 11.5, null, true);
+            customPdfText(selected.eligibility, 95, 74, 11.5);
+
+            customPdfText('Education :', 16, 89, 11.5, null, true);
+            customPdfText(selected.education, 95, 89, 11.5);
+
+            customPdfText('Training :', 16, 104, 11.5, null, true);
+            customPdfText(selected.training, 95, 104, 11.5);
+
+            customPdfText('Work Experience :', 16, 114, 11.5, null, true);
+            customPdfText(selected.experience, 95, 114, 11.5);
+
+             customPdfText('Competency :', 16, 126, 11.5, null, true);
+
+             customPdfText('Instruction/Remarks :', 16, 136, 11.5, null, true);
+             customPdfText('Interested and qualified applicants should signify their interest in writing. Attach the following documents', 16, 141, 11.5);
+             customPdfText('to the application letter and send to the address below not later than', 16, 146, 11.5);
+             customPdfText('Documents:', 16, 156, 11.5, null, true);
+
+             customPdfText('1. Fully accomplished Personal Data Sheet (PDS) with recent passport-sized picture (CS Form No. 212,', 16, 166, 11.5);
+             customPdfText('Revised 2017) which can be downloaded at www.csc.gov.ph;', 16, 171, 11.5);
+             customPdfText('2. Performance rating in the last rating period (if applicable);', 16, 176, 11.5);
+             customPdfText('3. Photocopy of certificate of eligibility/rating/license; and', 16, 181, 11.5);
+             customPdfText('4. Photocopy of Transcript of Records.', 16, 186, 11.5);
+             customPdfText('QUALIFIED APPLICANTS', 16, 200, 13,null,true);
+             customPdfText('are advised to hand in or send through courier/email their application to:', 73, 200, 11.5);
+
+             customPdfText(selected.hiring_manager, 16, 210, 12.5);
+             customPdfText('Hiring Manager', 16, 220, 12,null,true);
+            //  customPdfText('Zarraga Water District', 16, 225, 11.5);
+            //  customPdfText('Gomez St., Zarraga, Iloilo', 16, 230, 11.5);
+             customPdfText('APPLICATIONS WITH INCOMPLETE DOCUMENTS SHALL NOT BE ENTERTAINED.',16, 245,12.5,null,true)
+             customPdfText('Posting Date :',16, 260 ,11.5 ,null ,true)
+             customPdfText(selected.post_start.split(' ')[0],45, 260,11.5)
+
+             customPdfText('Closing Date :',16, 270 ,11.5 ,null ,true)
+             customPdfText(selected.post_due.split(' ')[0],45, 270 ,11.5)
+
+            var pdfData = doc.output('blob');
+
+            var pdfUrl = URL.createObjectURL(pdfData);
+
+            window.open(pdfUrl, '_blank');
+        },
         async initJobs() {
             this.loading = true;
-            await this.$axios.post(`/applicant/positions/jobs/?page=${this.page}`)
+            await this.$axios.post(`/applicant/positions/fetch-all-jobs?page=${this.page}`)
                 .then(res => {
                     this.jobs = res.data.data.data;
+                    this.itemsPerPage = res.data.data.per_page;
+                    this.page = res.data.data.current_page;
+                    this.pageCount = res.data.data.last_page;
                 })
-                .catch(() => {
-
+                .catch((err) => {
+                    if (err.response.status == "403" || err.response.status == "422" || err.response.status == "400") {
+                            var x = "";
+                            this.$jquery.each(err.response.data.errors, (i, v) => {
+                                x += v + "<br>";
+                            });
+                            this.$toast.open({
+                                message: x,
+                                type: "error",
+                                duration: 3000,
+                                pauseOnHover: true,
+                            });
+                        } else {
+                            throw err.response.data;
+                    }
                 })
                 .finally(() => {
                     this.loading = false;
                 });
-        },  
+        },
 
         openJob(job) {
             this.breadcrumbs.forEach(crumb => {
@@ -193,5 +319,11 @@ export default {
     }
     .crumb:disabled {
         cursor: default !important;
+    }
+    .pagination {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
 </style>

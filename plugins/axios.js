@@ -12,7 +12,10 @@ export default ({ app, store, redirect }) => {
 
   // Request interceptor
   axios.interceptors.request.use((request) => {
-    request.baseURL = process.env.apiUrl
+    
+    const clientURL = window.location.origin;
+
+    request.baseURL = clientURL == 'http://100.121.217.142' ? 'http://100.109.59.142/backend/public/api' : process.env.apiUrl
 
     const token = store.getters['auth/token']
 

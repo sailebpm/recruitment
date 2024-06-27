@@ -6,7 +6,7 @@
 import jsPDF from "jspdf";
 export default {
     props: ['fullName', 'positionName'],
-    
+
     data() {
         return {
             loading: false,
@@ -19,7 +19,7 @@ export default {
         item(){
             this.viewRequirements();
         },
-        
+
     },
     async mounted() {
             await this.fetchingLogoPath();
@@ -31,7 +31,7 @@ export default {
 
     methods: {
         async viewRequirements(){
-            
+
             await this.$axios.post("/applicant/fetch_applicant_request").then((res) => {
                 this.loading = true
                 var value = res.data.data[0]
@@ -51,32 +51,32 @@ export default {
                 applicant_details_user.forEach(element => {
                     this.details.push([element][0].supplemental_details.id)
                 });
-                
+
                 this.loading = false
                  }
             });
-            
+
         },
         async fetchingLogoPath() {
                 await this.$axios.get("fetch_logo_path").then((res) => {
                     this.loading = true;
                     this.get_path = res.data.data;
-                    this.logo_url = this.get_path ?? require("~/assets/images/logo/shortcut-icon.png");
+                    // this.logo_url = this.get_path ?? require("~/assets/images/logo/shortcut-icon.png");
                     this.loading = false;
                 });
             },
-     
+
 
             async download_SR() {
                this.loading = true;
-               let footer = new Image();
-                footer.src = this.logo_url
+              //  let footer = new Image();
+                // footer.src = this.logo_url
             //    var imgData = "https://yt3.googleusercontent.com/ytc/AL5GRJVjOOsRVjYuM4qbNzUDbbrNNxBOcasyoC_1Wrvu=s176-c-k-c0x00ffffff-no-rj"
                 var doc = new jsPDF({ orientation: "p", format: "legal"});
-                doc.addImage(footer, 'PNG', 25, 3, 20, 20)
+                // doc.addImage(footer, 'PNG', 25, 3, 20, 20)
 
 
-            
+
 
                 doc.setFont("Arial", "bold").setFontSize(13).text("NATIONAL KIDNEY AND TRANSPLANT INSTITUTE", 102, 10, null, null, "center");
                 doc.setFontSize(12).text("East Avenue, Quezion City", 102, 15, null, null, "center");
@@ -91,7 +91,7 @@ export default {
 
                 doc.setFont("Arial", "bold").setFontSize(10).text("MEMORANDUM", 16, 50);
 
-                
+
                 doc.setFont("Arial", "bold").setFontSize(10).text("To:", 38, 55);
                 doc.setFont("Arial", "regular")
                 doc.line(44, 55, 110, 55);
@@ -106,7 +106,7 @@ export default {
 
                 var Pursuant = doc.splitTextToSize("Pursuant to Hospital Order No. 26, s. 2004 ( please read copy at the back of this sheet ) and in connection with the recommendation for appointment received by HRM Division  dated ____________________, you are required to submit to this  Office the following documents / records and accomplish the issued blank forms within three to five days ( 3-5 days) from receipt hereof in order to facilitate the processing of your civil service appointment and first salary :", 220);
                 doc.setFont("Arial", "regular").setFontSize(10).text(5, 78, Pursuant);
-               
+
                 doc.setLineDash([1, 3, 3, 1], 10);
                 doc.line(10, 95, 203, 95);
 
@@ -127,7 +127,7 @@ export default {
 
                 doc.setFont("Arial", "bold").setFontSize(10).text("FOR PROFESSIONAL LICENSED POSITION  :  ", 8, 105);
                 doc.setFont("Arial", "regular").setFontSize(10).text("Original and Two (2) Photocopies each of the following :", 8, 109);
-                //FOR PROFESSIONAL LICENSED POSITION  :  
+                //FOR PROFESSIONAL LICENSED POSITION  :
                 doc.setFont("Arial", "bold").setFontSize(10).text("PRC ID, current and valid (Authenticated Original)", 17, 114);
                 if(this.details.includes(1)){
                     checkbox(12, 111, 3, 3);
@@ -155,9 +155,9 @@ export default {
                     checkbox(112, 111, 3, 3);
                 }else{
                     doc.rect(112, 111, 3, 3);}
-                
+
                 doc.setFont("Arial", "italic").setFontSize(10).text("FOR OTHER POSITIONS IN THE GOVERNMENT SERVICE  :  Original and Two (2) Photocopies of any of the ff. :", 8, 130);
-                
+
                 //FOR OTHER POSITIONS IN THE GOVERNMENT SERVICE
                 doc.setFont("Arial", "bold").setFontSize(10).text("Operator's License from RTC", 17, 135);
                 if(this.details.includes(5)){
@@ -176,7 +176,7 @@ export default {
                     checkbox(129, 132, 3, 3);
                 }else{
                     doc.rect(129, 132, 3, 3);}
-                
+
                 //number2
 
                 doc.setFont("Arial", "bold").setFontSize(10).text("CERTIFICATES OF RELEVANT TRAININGS : ",8, 142,);
@@ -196,7 +196,7 @@ export default {
                     checkbox(3, 152, 3, 3);
                 }else{
                     doc.rect(3, 152, 3, 3);}
-                
+
                 //number4
                 doc.setFont("Arial", "bold").setFontSize(10).text("MARRIAGE CONTRACT : ",8, 160 );
                 doc.setFont("Arial", "regular").setFontSize(10).text("PSA Original Copy and Two (2) photocopies ( if applicable )",52, 160 );
@@ -204,7 +204,7 @@ export default {
                     checkbox(3, 157, 3, 3);
                 }else{
                     doc.rect(3, 157, 3, 3);}
-                
+
                 //number5
                 doc.setFont("Arial", "bold").setFontSize(10).text("BIRTH CERTIFICATE : ",8, 165);
                 doc.setFont("Arial", "regular").setFontSize(10).text("PSA Original Copy and Two (2) photocopies ",48, 165 );
@@ -244,7 +244,7 @@ export default {
                     checkbox(3, 182, 3, 3);
                 }else{
                     doc.rect(3, 182, 3, 3);}
-                
+
                 //number10
                 doc.setFont("Arial", "bold").setFontSize(10).text("NBI CLEARANCE CERTIFICATE,",8, 190);
                 doc.setFont("Arial", "regular").setFontSize(10).text("Original, updated",65, 190);
@@ -252,7 +252,7 @@ export default {
                     checkbox(3, 187, 3, 3);
                 }else{
                     doc.rect(3, 187, 3, 3);}
-            
+
                 // //BLANK FORMS FOR COMPLETION / ACCOMPLISHMENT :
                 doc.setFont("Arial", "bold").setFontSize(12).text("BLANK FORMS FOR COMPLETION / ACCOMPLISHMENT :",3, 196);
 
@@ -271,7 +271,7 @@ export default {
                     checkbox(3, 204, 3, 3);
                 }else{
                     doc.rect(3, 204, 3, 3);}
-            
+
                 //number 3
                 doc.setFont("Arial", "bold").setFontSize(10).text("MEDICAL CLEARANCE CERTIFICATE (CSC Form No. 211, s.1997),",8, 212);
                 doc.setFont("Arial", "regular").setFontSize(10).text("with Instruction Sheet and Memorandum Covering Sheet -",119, 212);
@@ -290,7 +290,7 @@ export default {
                     checkbox(3, 219, 3, 3);
                 }else{
                     doc.rect(3, 219, 3, 3);}
-                
+
                 //number 5
                 doc.setFont("Arial", "bold").setFontSize(10).text("SWORN STATEMENT OF ASSETS, LIABILITIES AND NETWORTH",8, 232);
                 doc.setFont("Arial", "regular").setFontSize(10).text("(SALN Form 1, 1994 pursuant to R.A. 6713), ",120, 232);
@@ -299,7 +299,7 @@ export default {
                     checkbox(3, 229, 3, 3);
                 }else{
                     doc.rect(3, 229, 3, 3);}
-                
+
                 //number 6
                 doc.setFont("Arial", "bold").setFontSize(10).text("OATH OF OFFICE (PANUNUMPA),",8, 242);
                 doc.setFont("Arial", "regular").setFontSize(10).text("three (3) copies",68, 242);
@@ -314,7 +314,7 @@ export default {
                     checkbox(3, 244, 3, 3);
                 }else{
                     doc.rect(3, 244, 3, 3);}
-                
+
                  //number 8
                  doc.setFont("Arial", "bold").setFontSize(10).text("ATM DBP",8, 252);
                  if(this.completion_checkbox.includes(8)){
@@ -322,7 +322,7 @@ export default {
                 }else{
                     doc.rect(3, 249, 3, 3);}
 
-                
+
                  //number 9
                  doc.setFont("Arial", "bold").setFontSize(10).text("Pag-IBIG MEMBER'S DATA FORM,",8, 257);
                  doc.setFont("Arial", "regular").setFontSize(10).text("two (2) copies, back-to-back print",68, 257);
@@ -338,12 +338,12 @@ export default {
                     checkbox(3, 259, 3, 3);
                 }else{
                     doc.rect(3, 259, 3, 3);}
-              
+
                  //number 11
                 doc.setFont("Arial", "bold").setFontSize(10).text("PHILHEALTH FORM,",8, 267);
                 doc.setFont("Arial", "regular").setFontSize(10).text("two (2) copies",8, 272);
 
-                
+
                 //philhealth form
                 doc.setFont("Arial", "bold").setFontSize(10).text("FORM M1a : ",65, 267);
                 doc.setFont("Arial", "regular").setFontSize(10).text("For New Hired Employee, without previous PhilHealth No. ",87, 267);
@@ -361,7 +361,7 @@ export default {
                     doc.setFont("Arial", "bold").setFontSize(6).text("(pls. attch",197, 272);
                     doc.setFont("Arial", "bold").setFontSize(6).text("copy of MDR)",195, 277);
 
-                
+
                 doc.setFont("Arial", "bold").setFontSize(10).text("FORM M2 : ",65, 272);
                 doc.setFont("Arial", "regular").setFontSize(10).text("amendment Form 2007, For Employee with previous / existing PhilHealth No. ",87, 272);
                 if(this.details.includes(9)){
@@ -370,7 +370,7 @@ export default {
                     doc.rect(60, 269, 3, 3);}
 
 
-                
+
                   //number 12
                   doc.setFont("Arial", "bold").setFontSize(10).text("BIR Form  1902, revised 2000:",8, 282);
                   doc.setFont("Arial", "bold").setFontSize(10).text("BIR Form  2305, revised 2008:",8, 287);
@@ -382,7 +382,7 @@ export default {
                     checkbox(60, 279, 3, 3);
                 }else{
                     doc.rect(60, 279, 3, 3);}
-                
+
                 doc.setFont("Arial", "bold").setFontSize(10).text("For Employee with previous / existing BIR Tax Identification Number or TIN",65, 287);
                 if(this.details.includes(11)){
                     checkbox(60, 284, 3, 3);
@@ -398,9 +398,9 @@ export default {
                      doc.line(213, 283, 213, 290);
 
 
-                doc.setFont("Arial", "bold").setFontSize(6).text("CHANGE RDO TO RDO 039",185, 287);   
+                doc.setFont("Arial", "bold").setFontSize(6).text("CHANGE RDO TO RDO 039",185, 287);
 
-                    
+
                 doc.setFont("Arial", "bold").setFontSize(8).text("ADDITIONAL REQUIREMENTS FOR TRANSFEREES AND THOSE WITH PREVIOUS GOVERNMENT SERVICE : Please refer at the back portion of this sheet.",3, 297);
 
                 doc.setFont("Arial", "italic").setFontSize(12).text("Acknowledged by:",10, 307);
@@ -420,19 +420,19 @@ export default {
                 //page 2
                 doc.addPage()
 
-                doc.addImage(footer, 'PNG', 25, 3, 20, 20)
+                // doc.addImage(footer, 'PNG', 25, 3, 20, 20)
                 doc.setFont("Arial", "bold").setFontSize(13).text("NATIONAL KIDNEY AND TRANSPLANT INSTITUTE", 102, 10, null, null, "center");
                 doc.setFontSize(12).text("East Avenue, Quezion City", 102, 15, null, null, "center");
 
                 doc.setFont("Arial", "regular").setFontSize(12).text("September 16, 2004",  100, 25);
-                
+
                 doc.setFont("Arial", "regular").setFontSize(10).text("HOSPITAL ORDER", 16, 30);
                 doc.setFont("Arial", "regular").setFontSize(10).text("NO. 26 ,s. 2004", 16, 35)
                 doc.line(22, 36, 27, 36);
 
                 doc.setFont("Arial", "regular").setFontSize(12).text("Subject: Amendment to Hospital Order No, 5 s. 1990", 38, 45)
                 doc.setFont("Arial", "regular").setFontSize(12).text("(Re: Completion of Requirements for Appointment/Promotion)", 51, 52)
-                
+
                 doc.setFont("Arial", "regular").setFontSize(12).text("For the Information and guidence of all concerned, all appointments whether original,", 38, 62)
                 doc.setFont("Arial", "regular").setFontSize(12).text("transfer, reinstatement or promotion, shall take effect only upon completion of all the necessary", 32, 67)
                 doc.setFont("Arial", "regular").setFontSize(12).text("documents that may be required as follows:", 32, 72)
@@ -477,7 +477,7 @@ export default {
                 doc.setFont("Arial", "regular").setFontSize(12).text("Failure to comply with the necessary documents on time would mean a delay in the", 38, 247)
                 doc.setFont("Arial", "regular").setFontSize(12).text("effetive date of appointment.   No candidate for employment, transfer reinstatement or", 32, 252)
                 doc.setFont("Arial", "regular").setFontSize(12).text("promotion shall be allowed to commence official duly prior to effective date appointment.", 32, 257)
-                
+
                 doc.setFont("Arial", "regular").setFontSize(12).text("This order takes effect Immediately, ", 38, 267)
 
                 doc.setFont("Arial", "regular").setFontSize(12).text("ALLEN R. JAVIER, M.D., CESO IV ", 120, 287)
@@ -486,16 +486,16 @@ export default {
 
                 this.loading = false
                 doc.autoPrint();
-                doc.save(this.fullName+"_"+"Supplementary_requirments.pdf");
+                doc.save(this.fullName+"_"+"Supplementary_requirements.pdf");
                 this.$emit("buttonFalse", { update: false });
 
             },
 
-        
 
-       
+
+
     }
-    
+
 }
 </script>
 

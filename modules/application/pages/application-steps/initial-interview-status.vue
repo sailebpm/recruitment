@@ -20,6 +20,14 @@
                     <v-btn v-if="initialInterviewStatus!=null && initialInterviewStatus.status==3" color="error" class="ml-2 text-capitalize" @click="decline()"> Decline </v-btn>
                 </div>
             </v-card-text>
+
+            <v-card-text  v-else-if="initialInterviewStatus.status == 5" >
+                <h3> Greetings! I regret to inform you that you have not been selected for the position of a ({{ position ? position : ' ' }}). <br>
+                    The interview team appreciates the time you spent in your recent interview. <br>
+                    We will, however, keep your resume on record and get in touch with you about future opportunities <br> 
+                    that may be a better fit for your skills and experience. </h3>
+            </v-card-text>
+
             <v-card-actions class="d-flex flex-row-reverse">
                 <v-btn v-if="initialInterviewStatus!=null && initialInterviewStatus.status==2" color="primary darken-3" class="ml-2 text-capitalize" @click="acknowledge"> Acknowledge </v-btn>
             </v-card-actions>
@@ -139,7 +147,7 @@ export default {
                 this.initialInterviewStatus = res.data.data
                 if(this.initialInterviewStatus != null){
                 this.passDate = res.data.data.updated_at
-                if(res.data.data.status == 2 || res.data.data.status == 3){
+                if(res.data.data.status == 2 || res.data.data.status == 3 || res.data.data.status == 5){
                     await this.$axios.get('/applicant/position').then((res) => {
                         this.position = res.data.data.position.title
                         this.message.thankyou = "Thank you for attending the initial interview for the"+ this.position + "at National Kidney and Transplant Institute."

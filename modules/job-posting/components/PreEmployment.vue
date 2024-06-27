@@ -17,7 +17,7 @@
                 <v-divider class="my-1"></v-divider>
                 <v-col cols="12">
                     <v-alert border="left" colored-border type="warning" elevation="2">
-                        <p class="font-weight-medium mb-0" style="font-size: 16px;">Warning</p>
+                        <p class="font-weight-medium mb-0" style="font-size: 16px;">Note:</p>
                         <p class="mb-0" style="font-size: 12px;">Indicate <strong>N/A</strong> if not applicable. <strong>DO NOT ABBREVIATE.</strong></p>
                     </v-alert>
                 </v-col>
@@ -121,11 +121,11 @@
 </template>
 
 <script>
-    import ContactInformation from "./pre-employment-form/ContactInformation.vue";
-    import PersonalInformation from "./pre-employment-form/PersonalInformation.vue";
-    import Skills_Educational_Attainment from "./pre-employment-form/Skills_Educational_Attainment.vue";
-    import WorkExperienceTrainings from "./pre-employment-form/WorkExperienceTrainings.vue";
-    import BackgroundCheckNotice from "./pre-employment-form/BackgroundCheckNotice.vue";
+    import ContactInformation from "./pre_employment_form/ContactInformation.vue";
+    import PersonalInformation from "./pre_employment_form/PersonalInformation.vue";
+    import Skills_Educational_Attainment from "./pre_employment_form/Skills_Educational_Attainment.vue";
+    import WorkExperienceTrainings from "./pre_employment_form/WorkExperienceTrainings.vue";
+    import BackgroundCheckNotice from "./pre_employment_form/BackgroundCheckNotice.vue";
     import jsPDF from "jspdf";
     import "jspdf-autotable";
     export default {
@@ -289,9 +289,9 @@
                 var firstChoice = this.firstchoice.firstChoice ? this.firstchoice.firstChoice : "N/A";
 
                 if (this.positionChoice != null) {
-                    var secondChoice = this.positionChoice.secondChoice.position.title ? this.positionChoice.secondChoice.position.title : "N/A";
+                    var secondChoice = this.positionChoice.secondChoice.position_title ? this.positionChoice.secondChoice.position_title : "N/A";
                     if (this.positionChoice.thirdChoice != "N/A") {
-                        var thirdChoice = this.positionChoice.thirdChoice.position.title ? this.positionChoice.thirdChoice.position.title : "N/A";
+                        var thirdChoice = this.positionChoice.thirdChoice.position_title ? this.positionChoice.thirdChoice.position_title : "N/A";
                     } else {
                         var thirdChoice = this.positionChoice.thirdChoice;
                     }

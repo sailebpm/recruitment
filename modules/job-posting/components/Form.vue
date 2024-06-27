@@ -39,11 +39,11 @@
                                 small-chips
                                 deletable-chips
                                 v-on:input="limiter1"
-                                item-text="position.title"
+                                item-text="position_title"
                                 item-value="position_id"
                             >
                             </v-autocomplete>
-                            <v-checkbox dense v-model="agree">
+                            <v-checkbox dense v-model="agree" color="#2d3270">
                                 <template v-slot:label>
                                     <span style="font-size: 14px;">
                                         By using this website, you agree to the data that we are collecting from you.
@@ -52,10 +52,7 @@
                             </v-checkbox>
                             <v-btn @click="viewPreEmploy()" block :disabled="!agree" :loading="loading" elevation="1">Next</v-btn>
                             <div class="d-flex justify-center justify-sm-end mb-3 mr-sm-1 px-1"></div>
-                            <!-- <div>
-                            <v-btn block color="yellow darken-1" :disabled="!agree" :loading="loading" elevation="1" type="submit"> Register </v-btn>
-                        </div> -->
-                            <div style="font-size: 14px;" class="mt-8">Already have an account? <a class="blue--text login" :href="this.$config.adg + 'applicant'"> Log In </a></div>
+                            <div style="font-size: 14px;" class="mt-8">Already have an account? <a class="blue--text login" :href="this.$config.adg + '#/applicant'"> Log In </a></div>
                         </v-form>
                     </v-col>
                 </v-row>
@@ -65,7 +62,7 @@
 </template>
 
 <script>
-    import pre_employment from "./pre-employment.vue";
+    import pre_employment from "./PreEmployment.vue";
     export default {
         components: { pre_employment },
         props: ["job"],
@@ -74,7 +71,7 @@
                 positionChoice_id: null,
                 firstChoice: null,
                 positionChoice: null,
-                positionOption: [],
+                positionOption: null,
                 modal_preemployment: false,
                 options: [],
                 open: true,
@@ -90,10 +87,10 @@
                         password: [(v) => !!v || "Password is a required field"],
                         confirmPassword: [(v) => v == this.data.register.password || "Password does not match"],
                         email: [(v) => !!v || "Email is a required field", (v) => /.+@.+/.test(v) || "Invalid E-Mail address"],
-                        position_options: [(v) => !!v || "Position Option is a required field"],
-                    },
-                },
-
+                        position_options:  [
+                            (v) => !!v || "Position Options is a required field", 
+                            (v) => (v && v.length != 0) || "Position Options must not be empty",                         ]},
+                        },
                 data: {
                     register: {
                         firstname: "",
@@ -105,7 +102,7 @@
                     },
                 },
                 payload: {
-                    position_id: this.job.position.id,
+                    position_id: this.job.position_id,
                     phs_id: this.job.id,
                     applicant_id: null,
                     position_option: this.positionOption,
@@ -113,16 +110,18 @@
                 position_title: [],
                 secondChoice: null,
                 thridChoice: null,
-                successMessage: false
+                successMessage: false,
+                page: 1,
             };
         },
+
         watch: {
             positionOption(value) {
                 let rows = [];
                 this.secondChoice = value[0];
                 this.thridChoice = value[1];
                 value.forEach((element) => {
-                    element.position.title;
+                    element.position_title;
                     var positionID = element.position_id;
                     rows.push(positionID);
                 });
@@ -133,12 +132,14 @@
                 };
             },
         },
-        async created() {
+
+        created() {
             this.initJobs();
             this.firstChoice = {
-                firstChoice: this.job.position.title,
+                firstChoice: this.job.position_title,
             };
         },
+
         methods: {
             viewPreEmploy() {
                 if (this.$refs.register.validate()) {
@@ -153,19 +154,34 @@
             async initJobs() {
                 this.loading = true;
                 await this.$axios
-                    .post(`/applicant/positions/jobs/?page=${this.page}`)
+                    .post(`/applicant/positions/fetch-all-jobs?page=${this.page}`)
                     .then((res) => {
                         this.options = res.data.data.data;
                         var positonId = [];
                         Object.keys(this.options).forEach((element) => {
-                            if (this.options[element].position_id != this.job.position.id) {
+                            if (this.options[element].position_id != this.job.position_id) {
                                 this.position = this.options[element];
                                 positonId.push(this.position);
                                 this.position_title = positonId;
                             }
                         });
                     })
-                    .catch(() => {})
+                    .catch((err) => {
+                        if (err.response.status == "403" || err.response.status == "422" || err.response.status == "400") {
+                            var x = "";
+                            this.$jquery.each(err.response.data.errors, (i, v) => {
+                                x += v + "<br>";
+                            });
+                            this.$toast.open({
+                                message: x,
+                                type: "error",
+                                duration: 3000,
+                                pauseOnHover: true,
+                            });
+                        } else {
+                            throw err.response.data;
+                        }
+                    })
                     .finally(() => {
                         this.loading = false;
                     });
@@ -176,22 +192,25 @@
                     e.pop();
                 }
             },
-            
 
             async registerFunction(payload1) {
                 if (this.$refs.register.validate()) {
                     this.loading = true;
                     const payload = {
-                        position_id: this.job.position.id,
-                        phs_id: this.job.id,
+                        position_id: this.job.position_id,
+                        phs_id: this.job.phs_id,
+                        // phs_id: (this.job.item_codes.length >= 1 ? this.job.item_codes[0].phs_id : null),
                         applicant_id: null,
                         position_option: this.positionChoice_id,
+                        item_codes: this.job.item_code,
+                        description: this.job.description,
+                        salary: this.job.salary.value
                     };
                     await this.$swal
                         .fire({
                             icon: "warning",
                             title: "Are you sure?",
-                            text: "You will be applying for " + this.job.position.title,
+                            text: "You will be applying for " + this.job.position_title,
                             showCancelButton: true,
                             confirmButtonText: "Continue",
                         })
@@ -211,8 +230,8 @@
                                                     duration: 3000,
                                                 });
                                                 this.$axios.post('/applicant/pre-employment/create_pre_employment',  {applicant_information: payload1, applicant: res.data}).then((res) => {
-                                                    window.location.href = this.$config.adg + "applicant";
-                                                 })        
+                                                    window.location.href = this.$config.adg + "#/applicant";
+                                                 })
                                             })
                                             .catch((err) => {
                                                 this.$toast.open({
@@ -243,13 +262,11 @@
                             }
                         })
                         .finally(() => {
-                        
                             this.loading = false;
-
                         });
                 }
             },
-            
+
 
             close() {
                 this.open = false;
@@ -265,7 +282,7 @@
     };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
     .label-text {
         font-size: 14px;
     }

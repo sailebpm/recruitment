@@ -25,6 +25,7 @@ export default {
     pdg : process.env.PDG_URL || 'https://pdg.nkti.test:3004',
     dms : process.env.DMS_URL || 'https://dms.nkti.test:3005',
     jp : process.env.JP_URL || 'https://jp.nkti.test:3006',
+    login_page: process.env.LOGIN_PAGE,
     axios: {
       baseURL: 'https://api.nuxtjs.dev'
     }
@@ -51,6 +52,7 @@ export default {
     { src: '~assets/toast/theme-sugar.css', lang: 'css' }
   ],
   router: {
+    mode: 'hash',
     middleware: ['locale', 'check-auth'],
     extendRoutes (routes, resolve) {
       routes.push({

@@ -52,12 +52,12 @@ export default {
             length: null,
             fullName: null,
             disableBtn: true
-            
+
         }
     },
     async created(){
         this.getInfo()
-        this.getRequirments()
+        this.getRequirements()
         this.getPosition()
 
     },
@@ -93,11 +93,11 @@ export default {
         async getPosition(){
             await this.$axios.get('/applicant/fetch_position').then((res) => {
                 this.positionName = res.data.data.position.title
-                
+
             })
         },
 
-        async getRequirments(){
+        async getRequirements(){
             await this.$axios.post('/applicant/get_applicant_req').then((res) => {
                 var requirements = res.data.data
                 if(requirements != null){
@@ -106,13 +106,13 @@ export default {
                 this.message.congrats = requirements.applicant_requirements[0].message
                 this.fullName = (requirements.lname+ " " +requirements.fname+" "+requirements.mname)
                 }
-                }  
+                }
             })
         },
 
-       
+
     }
-    
+
 }
 </script>
 
