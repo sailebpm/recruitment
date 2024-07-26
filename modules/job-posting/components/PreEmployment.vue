@@ -23,7 +23,7 @@
                 </v-col>
                 <v-col cols="12" xs="12" sm="12">
                     <v-tabs v-model="tab" grow hide-slider active-class="indigo darken-4 white--text rounded-sm" class="elevation-2 rounded-md">
-                        <v-tab v-for="item in tabs" :key="item.link" :href="item.link"> {{item.text}}</v-tab>
+                        <v-tab v-for="item in tabs" :key="item.link" :href="item.link" :class="{ 'disabled-tab': true }"> {{item.text}}</v-tab>
                     </v-tabs>
                 </v-col>
                 <v-row v-if="schedule == null && !loading">
@@ -31,44 +31,54 @@
                         <v-form ref="applicationForm" @submit.prevent="submit()">
                             <v-tabs-items v-model="tab" vertical>
                                 <v-tab-item eager value="contact_information">
-                                    <ContactInformation @getContactInformation="getContactInformation" :register="register" />
+                                    <ContactInformation @getContactInformation="getContactInformation" :register="register" @update:formValidity="contactForm = $event" />
 
+                                    <div class="d-flex flex-row-reverse mx-5 my-0">
+                                        <p style="font-size: 14px;" v-if="contactForm">Please complete the form to enable the button</p>
+                                    </div>
                                     <div class="d-flex flex-row-reverse mx-4 my-2">
-                                        <v-btn color="primary darken-3" @click="changeTab('personal_information')"> Next </v-btn>
+                                        <v-btn :disabled="contactForm" color="primary darken-3" @click="changeTab('personal_information')"> Next </v-btn>
                                     </div>
                                 </v-tab-item>
                                 <v-tab-item :eager="true" value="personal_information">
                                     <PersonalInformation @getPersonalInformation="getPersonalInformation" :register="register" />
 
+                                    <div class="d-flex flex-row-reverse mx-5 my-0">
+                                        <p style="font-size: 14px;" v-if="personalInfoForm">Please complete the form to enable the button</p>
+                                    </div>
                                     <div class="d-flex justify-space-between mx-4 my-2">
                                         <v-btn @click="changeTab('contact_information')"> Back </v-btn>
-                                        <v-btn color="primary darken-3" @click="changeTab('skills_Educational_attainment')"> Next </v-btn>
+                                        <v-btn :disabled="personalInfoForm" color="primary darken-3" @click="changeTab('skills_Educational_attainment')">Next</v-btn>
                                     </div>
                                 </v-tab-item>
                                 <v-tab-item eager value="skills_Educational_attainment">
                                     <Skills_Educational_Attainment @getSkillsEducationalAttainment="getSkillsEducationalAttainment" />
-
+                                    <div class="d-flex flex-row-reverse mx-5 my-0">
+                                        <p style="font-size: 14px;" v-if="skillsEducForm">Please complete the form to enable the button</p>
+                                    </div>
                                     <div class="d-flex justify-space-between mx-4 my-2">
                                         <v-btn @click="changeTab('personal_information')"> Back </v-btn>
-                                        <v-btn color="primary darken-3" @click="changeTab('Work_Experience_and_Trainings')"> Next </v-btn>
+                                        <v-btn color="primary darken-3" :disabled="skillsEducForm" @click="changeTab('Work_Experience_and_Trainings')"> Next </v-btn>
                                     </div>
                                 </v-tab-item>
 
                                 <v-tab-item eager value="Work_Experience_and_Trainings">
                                     <WorkExperienceTrainings @getWorkExperienceTraining="getWorkExperienceTraining" @getreferral="getreferral" />
-
+                                    <div class="d-flex flex-row-reverse mx-5 my-0">
+                                        <p style="font-size: 14px;" v-if="workExpeForm">Please complete the form to enable the button</p>
+                                    </div>
                                     <div class="d-flex justify-space-between mx-4 my-2">
                                         <v-btn @click="changeTab('skills_Educational_attainment')"> Back </v-btn>
-                                        <v-btn color="primary darken-3" @click="changeTab('Background_Check_Notice')"> Next </v-btn>
+                                        <v-btn color="primary darken-3" :disabled="workExpeForm" @click="changeTab('Background_Check_Notice')"> Next </v-btn>
                                     </div>
                                 </v-tab-item>
 
                                 <v-tab-item eager value="Background_Check_Notice">
                                     <BackgroundCheckNotice @getBackroundCheckNotice="getBackroundCheckNotice" :register="register" :firstchoice="firstchoice" />
 
-                                    <v-row>
-                                        <v-col cols="12" sm="9">
-                                            <div class="d-flex pl-5" cols="12" sm="9">
+                                    <v-row  class="pa-2">
+                                        <v-col cols="12">
+                                            <div class="d-flex pl-5" >
                                                 <v-checkbox id="agreement" v-model="agree"> </v-checkbox>
                                                 <label class="my-5 text-justify" for="agreement">
                                                     I declare under the penalties of perjury that this form has been accoumphished in good faith, verified by me and to the best of my knowledge and belief, is a true, correct and complete
@@ -83,8 +93,9 @@
                                                     confidentiality, and I will not request for the copy of that information
                                                 </label>
                                             </div>
-                                            <div class="d-flex pl-5">
-                                                <v-btn :loading="loading" type="submit" :disabled="!agree || !agree1" class="mt-4" color="yellow darken-1" block> Register </v-btn>
+                                            <div class="d-flex justify-space-between">
+                                                <v-btn class="mt-4" @click="changeTab('Work_Experience_and_Trainings')"> Back </v-btn>
+                                                <v-btn :loading="loading" type="submit" :disabled="backgroundForm || !agree || !agree1" class="mt-4" color="yellow darken-1"> Register </v-btn>
                                             </div>
                                         </v-col>
                                     </v-row>
@@ -130,6 +141,11 @@
 
         data() {
             return {
+                skillsEducForm: false,
+                contactForm: false,
+                personalInfoForm: false,
+                workExpeForm: false,
+                backgroundForm: false,
                 modal_preemployment: true,
                 detailsCheck: [],
                 loading: false,
@@ -217,22 +233,40 @@
             },
 
             getContactInformation(value) {
+                const allFields = value.contactInformationForm.info;
+                const allFieldsValid = allFields.every(field => !field.skip && !!field.value.trim());
                 this.contactInformation = value;
+                this.contactForm = !allFieldsValid;
             },
             getPersonalInformation(value) {
+                const allFields = value.personalInformationForm.info;
+                const allFieldsValid = allFields.every(field => !field.skip && !!field.value.trim());
                 this.personalInformation = value;
+                this.personalInfoForm = !allFieldsValid;
             },
             getSkillsEducationalAttainment(value) {
                 this.skillsEducationalAttainment = value;
+                const skillsEduc = [
+                    value.Personal_skills_Other_Abilities_Form.info.every(field => !field.skip && !!field.value.trim()),
+                    value.Government_Examination.info.every(field => !field.skip && !!field.value.trim()),
+                    value.Highest_Educational_Attainment.info.every(field => !field.skip && !!field.value.trim())
+                ];
+                this.skillsEducForm = skillsEduc.some(valid => !valid);
             },
             getWorkExperienceTraining(value) {
+                const allFields = value.flatMap(entry => entry.workexpetraining.info);
+                const allFieldsValid = allFields.every(field => !field.skip && !!field.value.trim());
                 this.workExperienceTraining = value;
+                this.workExpeForm = !allFieldsValid;
             },
             getreferral(value) {
                 this.referral = value;
             },
             getBackroundCheckNotice(value) {
                 this.backgroundCheckNotice = value;
+                const backgroundCheckValid = value.fullname_positionform.info.every(field => !field.skip && !!field.value.trim());
+                const referencesValid = value.references.info.every(field => !field.skip && !!field.value.trim());
+                this.backgroundForm = !(backgroundCheckValid && referencesValid);
             },
 
             async download_PEF() {
@@ -826,4 +860,8 @@
     };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+    .disabled-tab {
+        pointer-events: none;
+    }
+</style>

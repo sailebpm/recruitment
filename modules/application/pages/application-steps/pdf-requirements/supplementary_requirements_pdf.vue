@@ -61,7 +61,7 @@ export default {
                 await this.$axios.get("fetch_logo_path").then((res) => {
                     this.loading = true;
                     this.get_path = res.data.data;
-                    this.logo_url = this.get_path ?? require("~/assets/images/logo/shortcut-icon.png");
+                    // this.logo_url = this.get_path ?? require("~/assets/images/logo/shortcut-icon.png");
                     this.loading = false;
                 });
             },
@@ -69,11 +69,11 @@ export default {
 
             async download_SR() {
                this.loading = true;
-               let footer = new Image();
-                footer.src = this.logo_url
+              //  let footer = new Image();
+                // footer.src = this.logo_url
             //    var imgData = "https://yt3.googleusercontent.com/ytc/AL5GRJVjOOsRVjYuM4qbNzUDbbrNNxBOcasyoC_1Wrvu=s176-c-k-c0x00ffffff-no-rj"
                 var doc = new jsPDF({ orientation: "p", format: "legal"});
-                doc.addImage(footer, 'PNG', 25, 3, 20, 20)
+                // doc.addImage(footer, 'PNG', 25, 3, 20, 20)
 
 
 
@@ -420,7 +420,7 @@ export default {
                 //page 2
                 doc.addPage()
 
-                doc.addImage(footer, 'PNG', 25, 3, 20, 20)
+                // doc.addImage(footer, 'PNG', 25, 3, 20, 20)
                 doc.setFont("Arial", "bold").setFontSize(13).text("NATIONAL KIDNEY AND TRANSPLANT INSTITUTE", 102, 10, null, null, "center");
                 doc.setFontSize(12).text("East Avenue, Quezion City", 102, 15, null, null, "center");
 

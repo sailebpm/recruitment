@@ -708,7 +708,7 @@ export default {
         this.loading = false;
       });
   },
-  
+
   watch: {
     personalInformation: {
       handler() {
