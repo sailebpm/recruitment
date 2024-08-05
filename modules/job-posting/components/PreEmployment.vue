@@ -200,11 +200,8 @@
                 register: this.data.register,
             };
         },
-        async mounted() {
-            await this.fetchingLogoPath();
-        },
         async created() {
-            await this.fetchingLogoPath();
+            this.logo_url = require("~/assets/images/logo/shortcut-icon.png");
         },
         watch: {
            successMessage() {
@@ -215,14 +212,14 @@
 
         },
         methods: {
-            async fetchingLogoPath() {
-                await this.$axios.get("fetch_logo_path").then((res) => {
-                    this.loading = true;
-                    this.get_path = res.data.data;
-                    this.logo_url = this.get_path ?? require("~/assets/images/logo/shortcut-icon.png");
-                    this.loading = false;
-                });
-            },
+            // async fetchingLogoPath() {
+            //     await this.$axios.get("fetch_logo_path").then((res) => {
+            //         this.loading = true;
+            //         this.get_path = res.data.data;
+            //         this.logo_url = this.get_path ?? require("~/assets/images/logo/shortcut-icon.png");
+            //         this.loading = false;
+            //     });
+            // },
             close_modal() {
                 this.$emit("close_modal", { update: false });
             },
