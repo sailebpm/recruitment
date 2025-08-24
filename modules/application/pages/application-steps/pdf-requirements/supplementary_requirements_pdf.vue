@@ -78,8 +78,8 @@ export default {
 
 
 
-                doc.setFont("Arial", "bold").setFontSize(13).text("NATIONAL KIDNEY AND TRANSPLANT INSTITUTE", 102, 10, null, null, "center");
-                doc.setFontSize(12).text("East Avenue, Quezion City", 102, 15, null, null, "center");
+                doc.setFont("Arial", "bold").setFontSize(13).text("COMPANY", 102, 10, null, null, "center");
+                doc.setFontSize(12).text("Company Address", 102, 15, null, null, "center");
                 const today = new Date().toLocaleDateString("en-us", { year: "numeric", month: "long", day: "numeric" });
 
                 //date
@@ -181,7 +181,7 @@ export default {
 
                 doc.setFont("Arial", "bold").setFontSize(10).text("CERTIFICATES OF RELEVANT TRAININGS : ",8, 142,);
                 doc.setFont("Arial", "regular").setFontSize(10).text("Original and photocopies of completed trainings on non-degree courses thru formal",85, 142,);
-                var number2 = doc.splitTextToSize("in-service training program; availment of scholarship trainings; study or fellowship grants and other formal training activities accredited by the NKTI and / or the Civil Service Commission.", 150);
+                var number2 = doc.splitTextToSize("in-service training program; availment of scholarship trainings; study or fellowship grants and other formal training activities accredited by the COMPANY and / or the Civil Service Commission.", 150);
                 doc.setFont("Arial", "regular").setFontSize(10).text(8, 146, number2);
                 if(this.requirements_checkbox.includes(2)){
                     checkbox(3, 139, 3, 3);
@@ -275,7 +275,7 @@ export default {
                 //number 3
                 doc.setFont("Arial", "bold").setFontSize(10).text("MEDICAL CLEARANCE CERTIFICATE (CSC Form No. 211, s.1997),",8, 212);
                 doc.setFont("Arial", "regular").setFontSize(10).text("with Instruction Sheet and Memorandum Covering Sheet -",119, 212);
-                var number3 = doc.splitTextToSize("to be accomplished at the NKTI and attested by the designated NKTI Employees' Physician.", 150);
+                var number3 = doc.splitTextToSize("to be accomplished at the COMPANY and attested by the designated COMPANY Employees' Physician.", 150);
                 doc.setFont("Arial", "regular").setFontSize(10).text(8, 217, number3);
                 if(this.completion_checkbox.includes(3)){
                     checkbox(3, 209, 3, 3);
@@ -421,8 +421,8 @@ export default {
                 doc.addPage()
 
                 // doc.addImage(footer, 'PNG', 25, 3, 20, 20)
-                doc.setFont("Arial", "bold").setFontSize(13).text("NATIONAL KIDNEY AND TRANSPLANT INSTITUTE", 102, 10, null, null, "center");
-                doc.setFontSize(12).text("East Avenue, Quezion City", 102, 15, null, null, "center");
+                doc.setFont("Arial", "bold").setFontSize(13).text("COMPANY", 102, 10, null, null, "center");
+                doc.setFontSize(12).text("Company Address", 102, 15, null, null, "center");
 
                 doc.setFont("Arial", "regular").setFontSize(12).text("September 16, 2004",  100, 25);
 
@@ -442,7 +442,7 @@ export default {
                 doc.setFont("Arial", "regular").setFontSize(12).text("    License/Eligibility (2 copies)", 41, 92)
 
                 doc.setFont("Arial", "regular").setFontSize(12).text("3.    Original and photocopy of certificates of formal training/non-degree courses completed,", 38, 97)
-                doc.setFont("Arial", "regular").setFontSize(12).text("    study or scholarship/fellowship grants accredited by NKTI and/or the Civil", 41, 102)
+                doc.setFont("Arial", "regular").setFontSize(12).text("    study or scholarship/fellowship grants accredited by COMPANY and/or the Civil", 41, 102)
                 doc.setFont("Arial", "regular").setFontSize(12).text("    Service Commission", 41, 107)
                 doc.setFont("Arial", "regular").setFontSize(12).text("4.    Performance evaluation/ratings for the last two (2) semesters in case of promotion/transfer", 38, 112)
                 doc.setFont("Arial", "regular").setFontSize(12).text("5.    Medical Certificate from government physician with documentary stamp (with complete", 38, 117)
@@ -481,7 +481,7 @@ export default {
                 doc.setFont("Arial", "regular").setFontSize(12).text("This order takes effect Immediately, ", 38, 267)
 
                 doc.setFont("Arial", "regular").setFontSize(12).text("ALLEN R. JAVIER, M.D., CESO IV ", 120, 287)
-                doc.setFont("Arial", "regular").setFontSize(12).text("Officerr In-Charge, ", 136, 292)
+                doc.setFont("Arial", "regular").setFontSize(12).text("Officer In-Charge, ", 136, 292)
 
 
                 this.loading = false
