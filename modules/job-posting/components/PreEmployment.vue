@@ -680,8 +680,8 @@
                 doc.setFont("Arial", "bold").setFontSize(14).text("AND AUTHORIZATION FOR EMPLOYMENT REFERENCE REPORT", 102, 30, null, null, "center");
 
                 doc.setFont("Arial", "regular").setFontSize(13).text("The purpose of this notice is to inform tou that we will be conducting a pre-employment", 17, 45);
-                doc.setFont("Arial", "regular").setFontSize(13).text("background investigation in conjunction with you application for employment with NATIONAL", 17, 52);
-                doc.setFont("Arial", "regular").setFontSize(13).text("KIDNEY AND TRANSPLANT INSTITUTE. This background investigation may involve", 17, 59);
+                doc.setFont("Arial", "regular").setFontSize(13).text("background investigation in conjunction with you application for employment with COMPANY.", 17, 52);
+                doc.setFont("Arial", "regular").setFontSize(13).text("This background investigation may involve", 17, 59);
                 doc.setFont("Arial", "regular").setFontSize(13).text("verifying or reviewing any of the following relevant information.", 17, 66);
 
                 doc.setFont("Arial", "regular")
