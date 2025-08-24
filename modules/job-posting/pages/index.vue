@@ -186,7 +186,7 @@ export default {
             
 
             
-            customPdfText(selected.agency, 15, 8,10, null, true);
+            customPdfText("COMPANY", 15, 8,10, null, true);
             doc.line(15, 15, doc.internal.pageSize.width - 15, 15);
 
 
