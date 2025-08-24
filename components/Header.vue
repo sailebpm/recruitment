@@ -52,7 +52,7 @@
         <v-sheet v-else width="100%" elevation="1" class="pb-2 d-flex justify-center py-1 mb-5 header">
             <v-spacer></v-spacer>
             <a :href="$config.jp">
-                <v-img :src="require('~/assets/images/logo/main-logo.png')" contain max-height="90px" max-width="250px"></v-img>
+                <!-- <v-img :src="require('~/assets/images/logo/main-logo.png')" contain max-height="90px" max-width="250px"></v-img> -->
             </a>
             <v-spacer></v-spacer>
             <div v-if="!auth" class="mt-2 d-flex justify-end text-capitalized mr-3">

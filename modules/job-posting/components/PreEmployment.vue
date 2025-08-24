@@ -201,7 +201,7 @@
             };
         },
         async created() {
-            this.logo_url = require("~/assets/images/logo/shortcut-icon.png");
+            this.logo_url = require("~/assets/images/logo/favicon.png");
         },
         watch: {
            successMessage() {
@@ -216,7 +216,7 @@
             //     await this.$axios.get("fetch_logo_path").then((res) => {
             //         this.loading = true;
             //         this.get_path = res.data.data;
-            //         this.logo_url = this.get_path ?? require("~/assets/images/logo/shortcut-icon.png");
+            //         this.logo_url = this.get_path ?? require("~/assets/images/logo/favicon.png");
             //         this.loading = false;
             //     });
             // },
