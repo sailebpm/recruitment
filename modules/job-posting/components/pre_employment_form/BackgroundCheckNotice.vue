@@ -6,7 +6,7 @@
                 <v-card class="pa-5">
                     <v-row class="pt-2">
 						<v-col cols="12">
-						<p>I agree and authorize the NATIONAL KIDNEY AND TRANSPLANT INSTITUTE to obtain the background information for employment purpose</p>
+						<p>I agree and authorize the COMPANY to obtain the background information for employment purpose</p>
 						</v-col>
 						
                         <v-col cols="5">
@@ -19,10 +19,10 @@
 							<v-text-field v-if="!form.skip" v-model.lazy="form.value" :label="form.label" :rules="form.rules" :readonly="form.readonly" :type="form.type" outlined dense></v-text-field>
                         </v-col>
 						<v-col>
-							<p>at the National Kidney and Transplant Institute.	</p>
+							<p>at the COMPANY.	</p>
 						</v-col>
 						<v-col cols="12">
-							<p>I understand that National Kidney and Transplant Institute will use this information for employment purposes only and not furnish this information to a third party without my written consent.</p>
+							<p>I understand that COMPANY will use this information for employment purposes only and not furnish this information to a third party without my written consent.</p>
 						</v-col>
 
 						<v-col cols="12">

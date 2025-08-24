@@ -59,7 +59,7 @@ export default {
         this.getinitialInterviewStatus()
         await this.$axios.get('/applicant/position').then((res) => {
             this.position1 = res.data.data.position.title
-            this.message.thankyou = "Thank you for attending the initial interview for the "+ this.position1 + " at National Kidney and Transplant Institute."
+            this.message.thankyou = "Thank you for attending the initial interview for the "+ this.position1 + " at COMPANY."
         })
     },
     computed: {
@@ -150,7 +150,7 @@ export default {
                 if(res.data.data.status == 2 || res.data.data.status == 3 || res.data.data.status == 5){
                     await this.$axios.get('/applicant/position').then((res) => {
                         this.position = res.data.data.position.title
-                        this.message.thankyou = "Thank you for attending the initial interview for the"+ this.position + "at National Kidney and Transplant Institute."
+                        this.message.thankyou = "Thank you for attending the initial interview for the"+ this.position + "at COMPANY."
                     })
                 }
              }

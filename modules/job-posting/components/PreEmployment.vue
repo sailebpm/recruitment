@@ -88,7 +88,7 @@
                                             <div class="d-flex pl-5">
                                                 <v-checkbox id="agreement1" v-model="agree1"> </v-checkbox>
                                                 <label class="my-5 text-justify" for="agreement1">
-                                                    I agree and authorize the NATIONAL KIDNEY AND TRANSPLANT INSTITUTE to obtain the background infomation for the employment purpose. For all future time, I waive and release from any legal
+                                                    I agree and authorize the COMPANY to obtain the background information for the employment purpose. For all future time, I waive and release from any legal
                                                     obligation, any person or organization for any result of providing, obtaining or acting upon on the result of the employment verification. I understand that such information is sought with
                                                     confidentiality, and I will not request for the copy of that information
                                                 </label>
@@ -378,7 +378,7 @@
 
                 doc.addImage(footer, "PNG", 25, 3, 20, 20);
 
-                doc.setFont("Arial", "bold").setFontSize(11).text("NATIONAL KIDNEY AND TRANSPLANT INSTITUTE", 102, 10, null, null, "center");
+                doc.setFont("Arial", "bold").setFontSize(11).text("COMPANY", 102, 10, null, null, "center");
                 doc.setFontSize(12).text("Human Resource Management Division", 102, 15, null, null, "center");
                 doc.setFontSize(12).text("Recruitment and Hiring Section", 102, 20, null, null, "center");
 
@@ -604,7 +604,7 @@
                 doc.setFont("Arial", "regular").setFontSize(8).text("-REJECTED", 178, 252);
                 doc.setFont("Arial", "regular").setFontSize(8).text("-Other:__________", 178, 257);
 
-                doc.setFont("Arial", "bold").setFontSize(8).text("Person/s who referred you to NKTI", 5, 264);
+                doc.setFont("Arial", "bold").setFontSize(8).text("Person/s who referred you to COMPANY", 5, 264);
                 doc.setFont("Arial", "regular").setFontSize(8).text("" + referralName, 51, 264);
                 doc.line(50, 265, 160, 265);
 
@@ -627,7 +627,7 @@
                     doc.rect(8, 269, 3, 3);
                 }
 
-                doc.setFont("Arial", "regular").setFontSize(8).text("I agree and authorize the NATIONAL KIDNEY AND TRANSPLANT INSTITUTE to obtain the background infomation for the employment purpose. For all future time,", 12, 279);
+                doc.setFont("Arial", "regular").setFontSize(8).text("I agree and authorize the COMPANY to obtain the background infomation for the employment purpose. For all future time,", 12, 279);
                 doc.setFont("Arial", "regular").setFontSize(8).text("I waive and release from any legal obligation, any person or organization for any result of providing, obtaining or acting upon on the result of the employment verification.", 8, 283);
                 doc.setFont("Arial", "regular").setFontSize(8).text("I understand that such information is sought with confidentiality, and I will not request for the copy of that information", 8, 286);
 
@@ -699,7 +699,7 @@
                 doc.line(19, 94, 196, 94);
                 doc.setLineWidth(0);
 
-                doc.setFont("Arial", "regular").setFontSize(13).text("I agree and authorize the NATIONAL KIDNEY AND TRANSPLANT INSTITUTE to obtain", 17, 104);
+                doc.setFont("Arial", "regular").setFontSize(13).text("I agree and authorize the COMPANY to obtain", 17, 104);
                 doc.setFont("Arial", "regular").setFontSize(13).text("the background information for employment purpose", 17, 111);
                 doc.setFont("Arial", "regular").setFontSize(13).text("I am", 17, 124);
                 doc.setFont("Arial", "regular")
@@ -715,9 +715,9 @@
                     .setFontSize(14)
                     .text("" + position_backgroundCheckNotice, 40, 134);
                 doc.line(38, 135, 100, 135);
-                doc.setFont("Arial", "regular").setFontSize(13).text("at the National Kidney and Transplant Institute.", 102, 134);
+                doc.setFont("Arial", "regular").setFontSize(13).text("at the COMPANY.", 102, 134);
 
-                doc.setFont("Arial", "regular").setFontSize(13).text("I understand that National Kidney and Transplant Institute will use this information for employment", 17, 145);
+                doc.setFont("Arial", "regular").setFontSize(13).text("I understand that COMPANY will use this information for employment", 17, 145);
                 doc.setFont("Arial", "regular").setFontSize(13).text("purposes only and not furnish this information to a third party without my written consent.", 17, 152);
 
                 doc.setFont("Arial", "regular").setFontSize(13).text("For all future time. I waive and release from any legal obligation, any person or organization for", 17, 162);

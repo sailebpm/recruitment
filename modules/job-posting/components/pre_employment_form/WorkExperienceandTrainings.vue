@@ -20,7 +20,7 @@
 				</v-row>
 				<v-row class="pt-2" v-for="(form, formIndex) in referrals" :key="formIndex">
 					<v-col class="py-0 pl-1 pt-md-9" cols="12" md="12">
-						<p class="ps-3"><b>Person/s who referred you to NKTI</b></p>
+						<p class="ps-3"><b>Person/s who referred you to COMPANY</b></p>
 						<v-row>
 							<v-col class="py-0 pl-1" v-for="(info, index) in form.referral.info" :key="index" :cols="form.referral.cols">
 								<v-text-field v-model="info.value" :rules="info.rules" v-if="!info.skip" class="pt-5 pl-5 shrink" :label="info.label" :type="info.type" outlined dense></v-text-field>

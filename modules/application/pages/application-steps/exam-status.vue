@@ -11,7 +11,7 @@
             </v-card-text>
             
             <v-card-text  v-else-if="examStatus.status == 5">
-                <h3> "Thank you for your interest in the Position <b>({{ position ? position : ' '  }}) at National Kidney and Transplant Institute (NKTI).</b><br>
+                <h3> "Thank you for your interest in the Position <b>({{ position ? position : ' '  }}) at COMPANY.</b><br>
                     Regrettably, we must inform you that you did not meet the minimum requirements in the recent examination.<br>
                     We appreciate your application and encourage you to consider future opportunities with us that better align with your qualifications."</h3>
             </v-card-text>
